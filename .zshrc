@@ -34,13 +34,15 @@ case "$UNAME" in
             else
                 DISTRO='RHEL'
             fi
-        fi
-        LSB=$(which lsb_release 2>/dev/null)
-        if [[ ! -z "$LSB" ]]; then
-            # Arch Linux = 'Arch'
-            # Debian = 'Debian'
-            # Ubuntu = 'Ubuntu'
-            DISTRO="$(lsb_release -si)"
+        elif [[ -f /etc/pacman.conf ]]; then 
+            DISTRO="Arch"
+        else
+            LSB=$(which lsb_release 2>/dev/null)
+            if [[ ! "$LSB" = "lsb_release not found" ]]; then
+                # Debian = 'Debian'
+                # Ubuntu = 'Ubuntu'
+                DISTRO="$(lsb_release -si)"
+            fi
         fi
         ;;
     Darwin)
