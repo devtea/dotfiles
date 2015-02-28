@@ -1,0 +1,40 @@
+#
+# These things are run when an Openbox X Session is started.
+# You may place a similar script in $HOME/.config/openbox/autostart
+# to run user-specific things.
+#
+
+# If you want to use GNOME config tools...
+#
+#if test -x /usr/lib/openbox/gnome-settings-daemon >/dev/null; then
+#  /usr/lib/openbox/gnome-settings-daemon &
+#elif which gnome-settings-daemon >/dev/null 2>&1; then
+#  gnome-settings-daemon &
+#fi
+
+# If you want to use XFCE config tools...
+#
+#xfce-mcs-manager &
+xrdb ./.Xresources
+setxkbmap -option terminate:ctrl_alt_bksp
+
+xset -dpms &
+xset s off &
+nitrogen --restore &
+compton -O 2 -D 4 -cCfFb &
+tint2 &
+conky &
+conky -c ~/.conkyrc_bottom &
+xmodmap ~/.Xmodmap &
+deluge -u gtk &
+pidgin &
+dropboxd &
+sonata &
+#synergys -d WARNING &
+#boinc_client &
+
+# Wacom Bamboo tablet setup section
+#~/bin/wacom_setup
+
+# Set cpufreq appropriately
+sudo cpupower frequency-set -g performance

@@ -1,0 +1,242 @@
+# Conky configuration
+
+#################################
+#     Configuration Section     #
+#################################
+# Boolean value, if true, Conky will be forked to background when started. 
+background no
+# Use Xft (anti-aliased font and stuff) 
+use_xft yes
+xftfont sans:size=7:bold
+update_interval 5 
+total_run_times 0
+
+own_window yes
+own_window_transparent yes
+own_window_type desktop
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_argb_visual yes
+
+double_buffer yes
+minimum_size 280 600 
+draw_shades yes
+draw_outline no
+draw_borders no
+draw_graph_borders no
+#stippled_borders 8
+# The next line appears to be depricated
+# border_margin 4
+border_width 0
+# Default colors and also border colors
+default_color 839496
+default_shade_color 073642
+default_outline_color 073642
+default_bar_size 155 10
+alignment top_left
+gap_x 3 #gap from left
+gap_y 33 #gap from top
+no_buffers yes
+uppercase no
+cpu_avg_samples 2
+net_avg_samples 2
+override_utf8_locale no
+text_buffer_size 512
+mpd_host 192.168.1.25
+#for debugging graph positioning
+#draw_graph_borders
+
+###############################
+#     Main Layout Section     #
+###############################
+TEXT
+#------------
+# Arch Image 
+#------------
+${image /home/tim/Pictures/Arch.png -s 50x47 -f 5000}
+# Top Info Line#
+${voffset -9}${offset 32}Arch Linux
+${offset 36}Uptime: $uptime 
+${offset 42}$nodename - $sysname $kernel on $machine
+${offset 48}Pacman: ${execpi 1000 /home/tim/bin/pacupdate.pl}
+#This is the pacman update line. This requires a scheduled job run regularly. Currently a systemd will run updates every hour using the config file in /etc/systemd/system/timer-hourly.target.wants
+${offset 54}L:${loadavg 1}:${loadavg 2}:${loadavg 3}
+#---------------
+# Main Bar: CPU 
+#---------------
+${color 93a1a1}${voffset 5}${font sans:size=15}C${font sans:size=11:bold}PU${voffset 3}${hr 2}${font}${color}
+${voffset -15}${offset 50}Total=${cpu cpu0}%
+$alignr${voffset -10}Intel Core i7-3930K SB-E 4.4GHz
+${voffset 3}CPU 1
+CPU 1a
+CPU 2
+CPU 2a
+CPU 3
+CPU 3a
+CPU 4
+CPU 4a
+CPU 5
+CPU 5a
+CPU 6
+CPU 6a
+${alignr}${voffset -120}${offset -190}${freq_g 1}GHz
+${alignr}${offset -190}${freq_g 7}GHz
+${alignr}${offset -190}${freq_g 2}GHz
+${alignr}${offset -190}${freq_g 8}GHz
+${alignr}${offset -190}${freq_g 3}GHz
+${alignr}${offset -190}${freq_g 9}GHz
+${alignr}${offset -190}${freq_g 4}GHz
+${alignr}${offset -190}${freq_g 10}GHz
+${alignr}${offset -190}${freq_g 5}GHz
+${alignr}${offset -190}${freq_g 11}GHz
+${alignr}${offset -190}${freq_g 6}GHz
+${alignr}${offset -190}${freq_g 12}GHz
+${alignr}${voffset -120}${offset -150}${cpu cpu1}%
+${alignr}${offset -150}${cpu cpu7}%
+${alignr}${offset -150}${cpu cpu2}%
+${alignr}${offset -150}${cpu cpu8}%
+${alignr}${offset -150}${cpu cpu3}%
+${alignr}${offset -150}${cpu cpu9}%
+${alignr}${offset -150}${cpu cpu4}%
+${alignr}${offset -150}${cpu cpu10}%
+${alignr}${offset -150}${cpu cpu5}%
+${alignr}${offset -150}${cpu cpu11}%
+${alignr}${offset -150}${cpu cpu6}%
+${alignr}${offset -150}${cpu cpu12}%
+${alignr}${voffset -120}${cpubar cpu1 7,90}
+${alignr}${cpubar cpu7 7,90}
+${alignr}${cpubar cpu2 7,90}
+${alignr}${cpubar cpu8 7,90}
+${alignr}${cpubar cpu3 7,90}
+${alignr}${cpubar cpu9 7,90}
+${alignr}${cpubar cpu4 7,90}
+${alignr}${cpubar cpu10 7,90}
+${alignr}${cpubar cpu5 7,90}
+${alignr}${cpubar cpu11 7,90}
+${alignr}${cpubar cpu6 7,90}
+${alignr}${cpubar cpu12 7,90}
+${alignr}${voffset -115}${offset -95}${hwmon temp 2}C
+
+${alignr}${offset -95}${hwmon temp 3}C
+
+${alignr}${offset -95}${hwmon temp 4}C
+
+${alignr}${offset -95}${hwmon temp 5}C
+
+${alignr}${offset -95}${hwmon temp 6}C
+
+${alignr}${offset -95}${hwmon temp 7}C
+#------------------
+# GRAPHS
+#------------------
+${voffset 5}${voffset 3}${cpugraph cpu0 -t -l}
+${loadgraph -t -l}
+${execgraph /home/tim/bin/adjusted_temp.bash}
+#------------------
+# Main Bar: Memory 
+#------------------
+${color 93a1a1}${font sans:size=15}M${font sans:size=11:bold}EMORY${voffset 3}${hr 2}${font}${color}
+${alignr}${voffset -15}$memperc% - $mem/$memmax
+# RAM Usage Bar
+${voffset 4}RAM:
+${voffset -14}${offset 35}${membar 10,245}
+# SWAP Usage Bar
+${voffset 4}Swap:
+${voffset -14}${offset 35}${swapbar 10,245}
+#---------------
+# Main Bar: GPU 
+#---------------
+${color 93a1a1}${voffset 5}${font sans:size=15}G${font sans:size=11:bold}PU${voffset 3}${hr 2}${font}${color}
+${voffset 3}Core Temp: ${nvidia temp}C (${nvidia ambient}C Ambient)
+Freq: ${nvidia gpufreq}MHz Core - ${nvidia memfreq}MHz Memory
+#---------------------
+# Main Bar: Processes 
+#---------------------
+${color 93a1a1}${voffset 2}${font sans:size=15}P${font sans:size=11:bold}ROCESSES${voffset 3}${hr 2}${font}${color}
+${alignr}${voffset -15}$running_processes of $processes processes running
+${voffset 3}   Name
+Top CPU usage
+   ${top name 1}
+   ${top name 2}  
+   ${top name 3}
+   ${top name 4}
+${alignr}${voffset -60}${offset -100}PID
+
+${alignr}${offset -100}${top pid 1}
+${alignr}${offset -100}${top pid 2}
+${alignr}${offset -100}${top pid 3}
+${alignr}${offset -100}${top pid 4}
+${alignr}${voffset -60}${offset -50}CPU %
+
+${alignr}${offset -50}${top cpu 1}%
+${alignr}${offset -50}${top cpu 2}%
+${alignr}${offset -50}${top cpu 3}%
+${alignr}${offset -50}${top cpu 4}%
+${alignr}${voffset -60}MEM %
+
+${alignr}${top mem 1}%
+${alignr}${top mem 2}%
+${alignr}${top mem 3}%
+${alignr}${top mem 4}%
+Top Mem usage
+   ${top_mem name 1}
+   ${top_mem name 2}
+   ${top_mem name 3}
+   ${top_mem name 4}
+${alignr}${voffset -40}${offset -100}${top_mem pid 1}
+${alignr}${offset -100}${top_mem pid 2}
+${alignr}${offset -100}${top_mem pid 3}
+${alignr}${offset -100}${top_mem pid 4}
+${alignr}${voffset -40}${offset -50}${top_mem cpu 1}%
+${alignr}${offset -50}${top_mem cpu 2}%
+${alignr}${offset -50}${top_mem cpu 3}%
+${alignr}${offset -50}${top_mem cpu 4}%
+${alignr}${voffset -40}${top_mem mem 1}%
+${alignr}${top_mem mem 2}%
+${alignr}${top_mem mem 3}%
+${alignr}${top_mem mem 4}%
+#-----------------
+# Main Bar: Disks 
+#-----------------
+${color 93a1a1}${font sans:size=15}D${font sans:size=11:bold}ISKS${voffset 3}${hr 2}${font}${color}
+#List of Disks w/ usage bars
+/:${fs_free /} f/o ${fs_size /}
+${alignr}${voffset -14}${fs_bar 10,155 /}
+${voffset 5}/boot:${fs_free /boot} f/o ${fs_size /boot}
+${alignr}${voffset -14}${fs_bar 10,155 /boot}
+${voffset 5}home:${fs_free /home/tim} f/o ${fs_size /home/tim}
+${alignr}${voffset -14}${fs_bar 10,155 /home/tim}
+${voffset 5}stor:${fs_free /storage} f/o ${fs_size /storage}
+${alignr}${voffset -14}${fs_bar 10,155 /storage}
+${voffset 5}Dropbox:${execi 60 ~/bin/dropbox_size.sh} / 18.5GB
+${alignr}${voffset -14}${execibar 60 ~/bin/dropbox_size_p.sh}
+${voffset 5}root & home ${diskio_read /dev/sda} / ${diskio_write /dev/sda}
+${diskiograph /dev/sda}
+/storage ${diskio_read /dev/md0} / ${diskio_write /dev/md0} - ${execi 60 gawk -f /home/tim/bin/conky_mdstat /proc/mdstat}
+${diskiograph /dev/md0}
+${voffset -10}${diskiograph /dev/sdb 10,280}
+${diskiograph /dev/sdc 10,280}
+${diskiograph /dev/sdd 10,280}
+
+
+#----------------------
+# Main Bar: Networking 
+#----------------------
+${color 93a1a1}${font sans:size=15}N${font sans:size=11:bold}ETWORK${voffset 3}${hr 2}${font}${color}
+${alignr}${voffset -15}${font} In:${tcp_portmon 1 32767 count}  Out:${tcp_portmon 32768 61000 count}  ALL: ${tcp_portmon 1 65535 count}
+# Speed Graphs
+${voffset 3}${addr eth0}${alignr}${execi 14400 curl icanhazip.com -s | grep -m 1 -o --regexp="[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}\.[0-9]\{1,\}"}
+${voffset -2}${downspeedgraph eth0 30,140 3750}${alignr}${upspeedgraph eth0 30,140 625}
+${voffset -5}Dn
+${alignr}${voffset -10}Up
+${alignr}${voffset -10}${offset -140} ${downspeed eth0}/s
+${voffset -10}${offset 160}${upspeed eth0}/s  
+#-------------------
+# Main Bar: Music 
+#-------------------
+${color 93a1a1}${font sans:size=15}M${font sans:size=11:bold}USIC${voffset 3}${hr 2}${font}${color}
+${mpd_status}${if_mpd_playing} ${mpd_title 40}
+ By ${mpd_artist}
+${mpd_bar 5,280}
+Random: ${mpd_random} | Repeat: ${mpd_repeat} |  Vol: ${mpd_vol}%
+${endif}
+

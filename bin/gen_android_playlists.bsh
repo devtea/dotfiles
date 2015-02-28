@@ -1,0 +1,43 @@
+#!/bin/bash
+export_directory="/media/rd0/music/export"
+music_directory="/media/android/Internal storage/Music/"
+prefix="/sdcard0/Music"
+suffix=".m3u"
+playlist=""
+tmpdir="/tmp/andmusic"
+
+if [ -e "$tmpdir" ]; then
+    echo "$tmpdir" already exists
+else
+    mkdir -p "$tmpdir"
+fi
+
+#this will take a while...
+rsync -av --progress --size-only --delete "$export_directory"/ "$music_directory"
+#for directory in "$music_directory"*; do
+for directory in $export_directory/*; do
+    echo "Testing dir $directory"
+    if [ -d "$directory" ]; then
+        echo "    yup, it's a directory"
+        sleep 1
+        #setup tmp
+        tmpplaylist="$tmpdir/playlist.m3u"
+        echo "tmp playlist is $tmpplaylist"
+        touch "$tmpplaylist"
+        truncate --size=0 "$tmpplaylist"
+        #setup playlist
+        playlist="$music_directory$(basename "$directory")$suffix"
+        echo "    playlist file is $playlist"
+        #Build playlist
+        for file in "$directory"/*; do
+            echo "    Adding file $file"
+            if [ -f "$file" ]; then
+               #song="$prefix${file#"/media/android/Internal storage"}"
+               song="$prefix${file#$export_directory}"
+               echo "$song" >> "$tmpplaylist"
+            fi
+        done
+        echo "mv $tmpplaylist to $playlist"
+        mv "$tmpplaylist" "$playlist"
+    fi
+done

@@ -1,0 +1,17 @@
+# Rsync Include / exclude list
+
+- /dev/*
+- /proc/*
+- /sys/*
+- /tmp/*
+- /lost+found
+- /run/*
+- /media/*
+- /mnt/*
+- /home/*/.gvfs
+- /var/lib/pacman/sync/*
+- /home/*/.thumbnails/*
+- /home/*/.mozilla/firefox/*.default/Cache/*
+- /home/*/.cache/chromium/*
+- /home/*/.cache/google-chrome/*
+- /storage/*

@@ -1,0 +1,69 @@
+# Common aliases for shells
+
+case "$HOSTNAME" in
+        khazaddum)
+            alias pm='sudo pacman'
+            alias up='sudo pacmatic -Syu'
+            alias upa='packer -Syu --auronly --ignore zabbix-agent'
+            alias list-aur='sudo pacman -Qemq'
+            alias install='sudo pacman -S'
+            alias remove='sudo pacman -Rs'
+            alias compton="compton -O 2 -D 4 -cCfFb"
+            alias aurlist="sudo pacman -Qqm"
+            alias sshfs-rd0="sshfs {celeborn@lothlorien:,}/media/rd0"
+            alias sshfs-rd1="sshfs {celeborn@lothlorien:,}/media/rd1"
+            alias ytdl-mp3='youtube-dl -x --audio-format mp3 --audio-quality 128K'
+            alias ssoff='/home/tim/Scripts/screensaver'
+            alias vbm='vboxmanage'
+            ;;
+        lothlorien)
+            alias up='sudo apt-get update && sudo apt-get upgrade'
+            alias install='sudo aptitude install'
+            alias remove='sudo aptitude remove'
+            alias deluge-console="sudo -u deluge deluge-console"
+            alias deluged="sudo -u deluge deluged"
+            alias msm='sudo -u minecraft msm'
+            alias news='slrn'
+            alias burn='wodim -v -sao dev=/dev/sr0/'
+            alias fineline3='sudo -u fineline /home/fineline/bin/start_fineline.bsh'
+            alias fineline='sudo -u fineline /home/fineline/bin/start_fineline4.bsh'
+            alias fineline-q='sudo -u fineline /home/fineline/willie/willie.py -q'
+            alias fineline-k='sudo -u fineline /home/fineline/willie/willie.py -k'
+            alias fineline-r='fineline-q && sleep 2 && echo restarting && fineline'
+            alias feignline3='sudo -u feignline /home/feignline/bin/start_feignline.bsh'
+            alias feignline='sudo -u feignline /home/feignline/bin/start_feignline4.bsh'
+            alias feignline-q='sudo -u feignline /home/feignline/willie/willie.py -q'
+            alias feignline-r='feignline-q && sleep 2 && echo restarting && feignline'
+            alias fineline2='sudo -u fineline2 /home/fineline2/bin/start_fineline.bsh'
+            alias fineline2-q='sudo -u fineline2 /home/fineline2/willie/willie.py -q'
+            alias fineline2-k='sudo -u fineline2 /home/fineline2/willie/willie.py -k'
+            alias fineline2-r='fineline2-q && sleep 2 && echo restarting && fineline2'
+            ;;
+        osgiliath)
+            alias pm='sudo pacman'
+            alias up='sudo pacmatic -Syu'
+            alias install='sudo pacman -S'
+            alias remove='sudo pacman -Rs'
+            alias aurlist="sudo pacman -Qqm"
+            ;;
+esac
+alias ls='ls -lh --color=auto'
+alias sv='sudo vim'
+alias sless='sudo less'
+alias entar='tar czvf'
+alias untar='tar -zxvf'
+alias rs='rsync -av --progress'
+alias sprunge="curl -F 'sprunge=<-' http://sprunge.us"
+alias ix="curl -n -F 'f:1=<-' http://ix.io"
+alias pgrep='pgrep -l'
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias less='less -r'
+alias nmon='nmon -g .nmon_disks'
+alias ncmpc='ncmpc --host=$MPD_HOST'
+alias ncmpcpp='ncmpcpp -h $MPD_HOST'
+alias iotop='sudo iotop -d 4'
+alias pms='pms -h $MPD_HOST'
+
+

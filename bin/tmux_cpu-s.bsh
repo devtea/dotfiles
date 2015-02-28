@@ -1,0 +1,3 @@
+#!/bin/bash
+# A quick script to get the system CPU usage for use in the tmux status line
+top -b -n 2 | grep "Cpu(s)" | awk 'NR==2' | grep -Po "(\d+(.\d+)?)(?=%?\s?(sys?))"

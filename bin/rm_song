@@ -1,0 +1,19 @@
+#!/bin/bash
+HOST="-h 192.168.1.25 -p 6600 "
+MPD_HOME='/media/rd0/music/mpd'
+TRASH='/media/rd0/music/trash'
+SONG=$(mpc $HOST -f "$MPD_HOME/%file%" | head -n 1)
+FOLDER=$(dirname "$(mpc $HOST -f "%file%" | head -n 1)")
+POS=$(mpc $HOST | sed -n '2p' | awk '{print substr($2,2,3)}')
+
+mpc $HOST next &>> ~/log.txt
+mpc $HOST del $POS  &>> ~/log.txt
+if [ -d "$MPD_HOME" ]; then
+    mkdir -p "$TRASH/$FOLDER" &>> ~/log.txt
+    mv "$SONG" "$TRASH/$FOLDER/" &>> ~/log.txt
+    zenity --info --text="Song removed."
+else
+    zenity --error --text="Cannot remove song\!"
+fi
+
+mpc $HOST -q update

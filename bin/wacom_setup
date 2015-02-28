@@ -1,0 +1,8 @@
+#!/bin/bash
+xsetwacom --set "Wacom Bamboo 16FG 6x8 Pen stylus" MapToOutput "HEAD-2"
+xsetwacom --set "Wacom Bamboo 16FG 6x8 Pen eraser" MapToOutput "HEAD-2"
+xsetwacom set "Wacom Bamboo 16FG 6x8 Finger touch" Touch off
+xsetwacom set "Wacom Bamboo 16FG 6x8 Finger touch" Gesture off
+#xsetwacom --set "Wacom Bamboo 16FG 6x8 Finger pad" Button 1 "key ctrl z" #set top button to undo
+#xsetwacom --set "Wacom Bamboo 16FG 6x8 Finger pad" Button 9 "key shift q" #Zoom in
+#xsetwacom --set "Wacom Bamboo 16FG 6x8 Finger pad" Button 8 "key shift a" #zoom out

@@ -1,0 +1,3 @@
+#!/bin/bash
+# A quick script to get the user CPU usage for use in the tmux status line
+top -b -n 1 | grep "Cpu(s)" | grep -Po "(\d+(.\d+)?)(?=%?\s?(us(er)?))"

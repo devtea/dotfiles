@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# This script takes a batch of images, aligns them, stacks them, then opens 
+# the resultant image in gimp.
+#
+# This script expects the images to be JPEG in a ./orig/ folder
+#
+
+#align_image_stack -m -a out ./orig/*.jp*g
+align_image_stack -m -a out ./orig/*.jp*g
+enfuse \
+    --exposure-weight=0 \
+    --saturation-weight=0 \
+    --contrast-weight=1 \
+    --hard-mask \
+    --gray-projector=l-star \
+    --output=final.tif \
+    ./*.ti*f
+#
+# Additional options to consider
+# --contrast-window-size=X
+# Contrast Windo x >= 3 improves contrast at the possible risk of blur
+#
+# --contrast-edge-scale=X
+# Improves edges at the risk of looking 'photoshoppy' ie 'sharpened'
+#
+rm -f ./out*.tif
+gimp final.tif &

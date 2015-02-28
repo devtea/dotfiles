@@ -1,0 +1,54 @@
+# Conky configuration
+
+#################################
+#     Configuration Section     #
+#################################
+# Boolean value, if true, Conky will be forked to background when started.
+background no
+# Use Xft (anti-aliased font and stuff)
+use_xft yes
+xftfont DejaVu Sans:size=7:bold
+update_interval 2
+total_run_times 0
+
+own_window yes
+own_window_transparent yes
+own_window_type desktop
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+own_window_argb_visual yes
+
+double_buffer yes
+minimum_size 3840 2
+draw_shades yes
+draw_outline no
+draw_borders no
+draw_graph_borders no
+#stippled_borders 8
+# The next line appears to be depricated
+# border_margin 4
+border_width 0
+# Default colors and also border colors
+default_color a1bba1
+default_shade_color 002b36
+default_outline_color 002b36
+default_bar_size 155 10
+alignment bottom_left
+gap_x 3 #gap from left
+gap_y 0 #gap from bottom
+no_buffers yes
+uppercase no
+cpu_avg_samples 2
+net_avg_samples 2
+override_utf8_locale no
+#text_buffer_size 512
+mpd_host 192.168.1.25
+#for debugging graph positioning
+#draw_graph_borders
+
+###############################
+#     Main Layout Section     #
+###############################
+TEXT 
+Pacman: ${execpi 1000 /home/tim/bin/pacupdate.pl} | CPU ${cpu cpu0}%  ${exec /home/tim/bin/temp.bash}C  1_${loadavg 1} - 5_${loadavg 2} - 10_${loadavg 3} | Mem ${memperc}% | ${color 268bd2}${downspeed eth0}/s - ${color 2aa198}${upspeed eth0}/s${color} | GPU ${nvidia temp}C  ${nvidia ambient}C  ${nvidia gpufreq}MHz  ${nvidia memfreq}MHz | ${color 859900}${diskio_read /dev/sda} / ${diskio_write /dev/sda} - ${color b58900}${diskio_read /dev/md0} / ${diskio_write /dev/md0}${color} | ${if_mpd_playing}${color b58900}${mpd_bar 6,50} ${mpd_length}${endif} ${color}${mpd_status}${if_mpd_playing}: ${color 268bd2}${mpd_smart}${color}${endif}
+${voffset -10}${offset 1920}Pacman: ${execpi 1000 /home/tim/bin/pacupdate.pl} | CPU ${cpu cpu0}%  ${exec /home/tim/bin/temp.bash}C  1_${loadavg 1} - 5_${loadavg 2} - 10_${loadavg 3} | Mem ${memperc}% | ${color 268bd2}${downspeed eth0}/s - ${color 2aa198}${upspeed eth0}/s${color} | GPU ${nvidia temp}C  ${nvidia ambient}C  ${nvidia gpufreq}MHz  ${nvidia memfreq}MHz | ${color 859900}${diskio_read /dev/sda} / ${diskio_write /dev/sda} - ${color b58900}${diskio_read /dev/md0} / ${diskio_write /dev/md0l}${color} | ${if_mpd_playing}${color b58900}${mpd_bar 6,50} ${mpd_length}${endif} ${color}${mpd_status}${if_mpd_playing}: ${color 268bd2}${mpd_smart}${color}${voffset -16}${endif}
+${voffset -10}${offset 1920}Pacman: ${execpi 1000 /home/tim/bin/pacupdate.pl} | CPU ${cpu cpu0}%  ${exec /home/tim/bin/temp.bash}C  1_${loadavg 1} - 5_${loadavg 2} - 10_${loadavg 3} | Mem ${memperc}% | ${color 268bd2}${downspeed eth0}/s - ${color 2aa198}${upspeed eth0}/s${color} | GPU ${nvidia temp}C  ${nvidia ambient}C  ${nvidia gpufreq}MHz  ${nvidia memfreq}MHz | ${color 859900}${diskio_read /dev/sda} / ${diskio_write /dev/sda} - ${color b58900}${diskio_read /dev/md0} / ${diskio_write /dev/md0l}${color} | ${if_mpd_playing}${color b58900}${mpd_bar 6,50} ${mpd_length}${endif} ${color}${mpd_status}${if_mpd_playing}: ${color 268bd2}${mpd_smart}${color}${voffset -16}${endif}

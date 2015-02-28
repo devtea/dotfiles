@@ -1,0 +1,23 @@
+# Common exports for shell rc files
+
+#[ -n "$TMUX" ] && export TERM=screen-256color
+export TERM=screen-256color
+
+case "$HOSTNAME" in
+        khazaddum)
+            export BROWSER="/usr/bin/chromium"
+            export MPD_HOST=192.168.1.25
+            export MPD_PORT=6600
+            export PATH="${PATH}:${HOME}/tmp/heimdal/devkit/sdk/tools/:${HOME}/tmp/heimdal/devkit/sdk/platform-tools/"
+            ;;
+        lothlorien)
+            ;;
+        osgiliath)
+            ;;
+esac
+
+export EDITOR=vim
+export VISUAL=vim
+export PATH="${PATH}:${HOME}/bin"
+
+
