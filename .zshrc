@@ -69,10 +69,16 @@ esac
 #
 #################################################################
 
+# Try to grab antigen if it's not already there
+if [[ ! -f ~/.antigen.zsh ]]; then
+    if curl -L https://raw.githubusercontent.com/zsh-users/antigen/master/antigen.zsh > ~/.antigen.zsh; then
+        echo "Successfully downloaded antigen"
+    else
+        echo "Unable to download antigen"
+    fi
+fi
 
 # Load antigen
-# Grab it if you don't have it
-# curl -L https://raw.githubusercontent.com/zsh-users/antigen/master/antigen.zsh > .antigen.zsh
 source ~/.antigen.zsh
 
 # Load various useful lib files
