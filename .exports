@@ -1,7 +1,10 @@
 # Common exports for shell rc files
 
-#[ -n "$TMUX" ] && export TERM=screen-256color
-export TERM=screen-256color
+[ -n "$TMUX" ] && export TERM=screen-256color && export COLORTERM=screen-256color
+[ -n "$TERMINATOR_UUID" ] && export TERM=xterm-256color && export COLORTERM=xterm-256color
+
+
+#export TERM=rxvt-unicode-256color
 
 case "$HOSTNAME" in
         khazaddum)
