@@ -48,18 +48,18 @@ UNAME_FLAG_MEANINGS = {
 }
 
 LOGOS = {'Arch Linux': '''{c1}
-{c1}               +                {results[0]}
-{c1}               #                {results[1]}
-{c1}              ###               {results[2]}
-{c1}             #####              {results[3]}
-{c1}             ######             {results[4]}
-{c1}            ; #####;            {results[5]}
-{c1}           +##.#####            {results[6]}
-{c1}          +##########           {results[7]}
-{c1}         ######{c2}#####{c1}##;         {results[8]}
-{c1}        ###{c2}############{c1}+        {results[9]}
-{c1}       #{c2}######   #######        {results[10]}
-{c2}     .######;     ;###;`\".      {results[11]}
+{c1}               +            {results[0]}
+{c1}               #            {results[1]}
+{c1}              ###           {results[2]}
+{c1}             #####          {results[3]}
+{c1}             ######         {results[4]}
+{c1}            ; #####;        {results[5]}
+{c1}           +##.#####        {results[6]}
+{c1}          +##########       {results[7]}
+{c1}         ######{c2}#####{c1}##;     {results[8]}
+{c1}        ###{c2}############{c1}+    {results[9]}
+{c1}       #{c2}######   #######    {results[10]}
+{c2}     .######;     ;###;`\".  {results[11]}
 {c2}    .#######;     ;#####.       {results[12]}
 {c2}    #########.   .########`     {results[13]}
 {c2}   ######'           '######    {results[14]}
