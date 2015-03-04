@@ -11,7 +11,17 @@ fi
 
 hash git 2> /dev/null || {
     echo "Oh dear. I require Git, but it's not installed."
-    exit
+
+    echo
+    echo "I'll grab a couple minimal things for you..."
+
+    # download bare env manually
+    mkdir ~/dotfiles.old
+    mv ~/.aliases ~/.bash_profile ~/.bashrc ~/.commonrc ~/.exports ~/.functions ~/.zshrc ~/dotfiles.old
+    for file in .aliases .bash_profile .bashrc .commonrc .exports .functions .zshrc; do
+        curl -L https://raw.githubusercontent.com/tdreyer1/dotfiles/master/${file} > ~/${file}
+    done
+    exit 1
 }
 
 echo

@@ -185,16 +185,6 @@
       <action name="Focus"/>
       <action name="MoveToEdgeEast"/>
     </keybind>
-    <keybind key="XF86AudioLowerVolume">
-      <action name="Execute">
-        <command>mpc -h 192.168.1.25 -p 6600 volume +2</command>
-      </action>
-    </keybind>
-    <keybind key="XF86AudioRaiseVolume">
-      <action name="Execute">
-        <command>mpc -h 192.168.1.25 -p 6600 volume -2</command>
-      </action>
-    </keybind>
     <keybind key="XF86AudioPlay">
       <action name="Execute">
         <command>mpc -h 192.168.1.25 -p 6600 toggle</command>

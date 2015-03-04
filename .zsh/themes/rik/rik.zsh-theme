@@ -25,7 +25,7 @@ function prompt_char {
     if [ $UID -eq 0 ]; then echo "%{$fg[red]%}#%{$reset_color%}"; else echo $; fi
 }
 
-PROMPT="%(?, ,%{$fg[red]%}$?%{$reset_color%}
+PROMPT="%(?, ,%{$fg[red]%}%?%{$reset_color%}
 )
 %{$fg[yellow]%}%n@%m%{$reset_color%}: %{$fg[cyan]%}%~%{$reset_color%}
 %_$(prompt_char) "

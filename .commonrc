@@ -1,7 +1,9 @@
 #! /bin/bash
 # Common commands to be sourced by rc files like .bashrc and .zshrc
 
-eval $(keychain --eval --ignore-missing --agents ssh -Q --quiet id_rsa_bitbucket id_ecdsa_osgiliath id_ecdsa_khazaddum id_rsa_gandalf id_ecdsa_lothlorien id_rsa_github)
+if [[ $(type -p keychain) ]]; then
+    eval $(keychain --eval --ignore-missing --agents ssh -Q --quiet id_rsa_bitbucket id_ecdsa_osgiliath id_ecdsa_khazaddum id_rsa_gandalf id_ecdsa_lothlorien id_rsa_github)
+fi
 
 if [[ "$HOSTNAME" == khazaddum ]]; then
     setxkbmap -option terminate:ctrl_alt_bksp
@@ -9,22 +11,16 @@ if [[ "$HOSTNAME" == khazaddum ]]; then
 fi
 
 case "$HOSTNAME" in
-        khazaddum)
-            ~/bin/archey3.py -c green
-            ;;
-        lothlorien)
-            ~/bin/archey3.py -c magenta
-            ;;
-        osgiliath)
-            ~/bin/archey3.py -c yellow
-            ;;
-        esgaroth)
-            ~/bin/archey3.py -c cyan
-            ;;
+        khazaddum*)
+            ~/bin/archey3.py -c green ;;
+        lothlorien*)
+            ~/bin/archey3.py -c magenta ;;
+        osgiliath*)
+            ~/bin/archey3.py -c yellow ;;
+        esgaroth*)
+            ~/bin/archey3.py -c cyan ;;
         *)
-            if [[ -e ~/bin/archey3.py ]]; then 
-                ~/bin/archey3.py -c red
-            fi
+            [[ -x ~/bin/archey3.py ]] && ~/bin/archey3.py -c red ;;
 esac
 
 

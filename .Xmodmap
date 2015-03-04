@@ -1,2 +1,4 @@
 clear Lock
 keycode 66 = Escape
+keycode 122 = Shift_L
+keycode 123 = Control_L
