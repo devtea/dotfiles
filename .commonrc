@@ -1,7 +1,8 @@
 #! /bin/bash
 # Common commands to be sourced by rc files like .bashrc and .zshrc
 
-if [[ $(type -p keychain) ]]; then
+# Check for keychain and initialize if it exists
+if command -v keychain 2&>1 >/dev/null; then
     eval $(keychain --eval --ignore-missing --agents ssh -Q --quiet id_rsa_bitbucket id_ecdsa_osgiliath id_ecdsa_khazaddum id_rsa_gandalf id_ecdsa_lothlorien id_rsa_github)
 fi
 
