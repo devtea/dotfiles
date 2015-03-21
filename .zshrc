@@ -126,7 +126,7 @@ if [[ -f ~/.antigen.zsh ]]; then
             esac
             ;;
         Cygwin)
-            antigen bundle cygwin
+            # antigen bundle cygwin
             ;;
     esac
 

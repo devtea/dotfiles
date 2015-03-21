@@ -21,7 +21,7 @@ case "$HOSTNAME" in
         esgaroth*)
             ~/bin/archey3.py -c cyan ;;
         *)
-            [[ -x ~/bin/archey3.py ]] && ~/bin/archey3.py -c red ;;
+            [[ ! "$CURRENT_OS" == Cygwin ]] && [[ -x ~/bin/archey3.py ]] && ~/bin/archey3.py -c red ;;
 esac
 
 
