@@ -54,9 +54,9 @@ TEXT
 #------------
 ${image /home/tim/Pictures/Arch.png -s 50x47 -f 5000}
 # Top Info Line#
-${voffset -9}${offset 32}Arch Linux
+${voffset -9}${offset 32} $sysname $kernel on $machine
 ${offset 36}Uptime: $uptime 
-${offset 42}$nodename - $sysname $kernel on $machine
+${offset 42}$nodename
 ${offset 48}Pacman: ${execpi 1000 /home/tim/bin/pacupdate.pl}
 #This is the pacman update line. This requires a scheduled job run regularly. Currently a systemd will run updates every hour using the config file in /etc/systemd/system/timer-hourly.target.wants
 ${offset 54}L:${loadavg 1}:${loadavg 2}:${loadavg 3}
