@@ -49,8 +49,8 @@ case "$HOSTNAME" in
             CPATH="$GREEN"
             ;;
         *)
-            CHOST="$YELLOW"
-            CPATH="$YELLOW"
+            CHOST="$CYAN"
+            CPATH="$GREEN"
             ;;
 esac
 CNEUT="$RESET"

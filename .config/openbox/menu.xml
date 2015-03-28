@@ -515,6 +515,11 @@
 					</execute>
 				</action>
 			</item>
+			<item label="Virt Manager">
+				<action name="Execute">
+					<execute>virt-manager</execute>
+				</action>
+			</item>
 			<item label="Virtual Box">
 				<action name="Execute">
 					<execute>

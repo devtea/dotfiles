@@ -51,6 +51,13 @@ case "$HOSTNAME" in
             alias install='sudo yum install'
             alias remove='sudo yum remove'
             ;;
+        mithlond*)
+            alias pm='sudo pacman'
+            alias up='sudo pacmatic -Syu'
+            alias install='sudo pacman -S'
+            alias remove='sudo pacman -Rs'
+            alias aurlist="sudo pacman -Qqm"
+            ;;
 esac
 alias ls='ls -lh --color=auto'
 alias sv='sudo vim'

@@ -3,10 +3,10 @@
 
 # Check for keychain and initialize if it exists
 if command -v keychain 2&>1 >/dev/null; then
-    eval $(keychain --eval --ignore-missing --agents ssh -Q --quiet id_rsa_bitbucket id_ecdsa_osgiliath id_ecdsa_khazaddum id_rsa_gandalf id_ecdsa_lothlorien id_rsa_github)
+    eval $(keychain --eval --ignore-missing --agents ssh -Q --quiet id_rsa_bitbucket id_ecdsa_osgiliath id_ecdsa_khazaddum id_rsa_gandalf id_ecdsa_lothlorien id_rsa_github id_rsa_da-esgaroth id_ed25519_mithlond)
 fi
 
-if [[ "$HOSTNAME" == khazaddum ]]; then
+if [[ "$HOSTNAME" == khazaddum* ]]; then
     setxkbmap -option terminate:ctrl_alt_bksp
     xmodmap ~/.Xmodmap
 fi
@@ -19,6 +19,8 @@ case "$HOSTNAME" in
         osgiliath*)
             ~/bin/archey3.py -c yellow ;;
         esgaroth*)
+            ~/bin/archey3.py -c cyan ;;
+        mithlond*)
             ~/bin/archey3.py -c cyan ;;
         *)
             [[ ! "$CURRENT_OS" == Cygwin ]] && [[ -x ~/bin/archey3.py ]] && ~/bin/archey3.py -c red ;;
