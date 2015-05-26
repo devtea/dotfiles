@@ -4,7 +4,7 @@ case "$HOSTNAME" in
         khazaddum*)
             alias pm='sudo pacman'
             alias up='sudo pacmatic -Syu'
-            alias upa='packer -Syu --auronly --ignore zabbix-agent'
+            alias upa='packer -Syu --auronly'
             alias list-aur='sudo pacman -Qemq'
             alias install='sudo pacman -S'
             alias remove='sudo pacman -Rs'

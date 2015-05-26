@@ -110,9 +110,7 @@ if [[ -f ~/.antigen.zsh ]]; then
                     antigen bundle systemd
                     ;;
                 CentOS)
-                    antigen bundle centos
-                    antigen bundle yum
-                    ;;
+                    antigen bundle yum;;
                 Debian)
                     antigen bundle debian;;
                 Fedora)

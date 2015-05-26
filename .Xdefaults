@@ -59,10 +59,5 @@ URxvt*color4: RoyalBlue
 URxvt*color12: RoyalBlue
 
 # scrollbar - true (default) or false
-URxvt*scrollBar: true
+URxvt*scrollBar: false
 
-# scrollbar position - left=false (default) or right=true
-URxvt*scrollBar_right: false
-
-# scrollbar style - rxvt (default), plain, next, or xterm
-URxvt*scrollstyle: rxvt
