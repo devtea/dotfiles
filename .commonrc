@@ -11,6 +11,12 @@ if [[ "$HOSTNAME" == khazaddum* ]]; then
     xmodmap ~/.Xmodmap
 fi
 
+# workaround for terms that don't read xresources right
+if [[ $TERM == xterm-256color ]]; then
+    ~/bin/base16-default.dark.sh  
+fi
+
+
 case "$HOSTNAME" in
         khazaddum*)
             ~/bin/archey3.py -c green ;;

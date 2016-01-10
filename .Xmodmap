@@ -1,4 +1,12 @@
+! Set the capslock key to be read as Esc 
 clear Lock
 keycode 66 = Escape
+
+! Old?
 keycode 122 = Shift_L
 keycode 123 = Control_L
+
+! Set the menu key to mod3 for i3 and remove the actual menu functionality
+add mod3 = Menu
+keysym Menu = Hyper_L
+

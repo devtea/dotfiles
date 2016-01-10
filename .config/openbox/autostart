@@ -28,7 +28,7 @@ conky -c ~/.conkyrc_bottom &
 xmodmap ~/.Xmodmap &
 deluge -u gtk &
 pidgin &
-dropboxd &
+#dropboxd &
 sonata &
 #synergys -d WARNING &
 #boinc_client &

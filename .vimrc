@@ -14,6 +14,7 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'klen/python-mode'
 Plugin 'simple-pairs'
 Plugin 'tpope/vim-fugitive'
+" Plugin 'chriskempson/base16-vim' " Base 16 color
 
 " Python-Mode customizations
 "
@@ -56,10 +57,14 @@ filetype plugin indent on    " required
 
 "stuff
 "
+
+" Enable 256 colorspace
+let base16colorspace=256
+
 syntax enable
 set background=dark
-colorscheme solarized
 set scrolloff=10
+colorscheme gruvbox
 
 "settings for python
 syntax on
