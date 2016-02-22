@@ -1,3 +1,9 @@
 [submodule ".vim/bundle/Vundle.vim"]
 	path = .vim/bundle/Vundle.vim
 	url = https://github.com/gmarik/Vundle.vim.git
+[submodule "bin/cipherscan"]
+	path = bin/cipherscan
+	url = https://github.com/jvehent/cipherscan.git
+[submodule "bin/fetch"]
+	path = bin/fetch
+	url = https://github.com/dylanaraps/fetch.git

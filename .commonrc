@@ -16,20 +16,6 @@ if [[ $TERM == xterm-256color ]]; then
     ~/bin/base16-default.dark.sh  
 fi
 
-
-case "$HOSTNAME" in
-        khazaddum*)
-            ~/bin/archey3.py -c green ;;
-        lothlorien*)
-            ~/bin/archey3.py -c magenta ;;
-        osgiliath*)
-            ~/bin/archey3.py -c yellow ;;
-        esgaroth*)
-            ~/bin/archey3.py -c cyan ;;
-        mithlond*)
-            ~/bin/archey3.py -c cyan ;;
-        *)
-            [[ ! "$CURRENT_OS" == Cygwin ]] && [[ -x ~/bin/archey3.py ]] && ~/bin/archey3.py -c red ;;
-esac
+~/bin/fetch/fetch
 
 
