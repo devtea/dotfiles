@@ -12,8 +12,6 @@ complete -cf sudo
 # include common exports
 source ~/.exports
 
-set -C # Prevent ">" from overwriting existing files, use '>|' instead
-
 #colors for ps1
 RESET='\[\033[0m\]'
 
