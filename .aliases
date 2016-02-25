@@ -47,9 +47,9 @@ case "$HOSTNAME" in
             alias aurlist="sudo pacman -Qqm"
             ;;
         esgaroth*)
-            alias up='sudo yum update'
-            alias install='sudo yum install'
-            alias remove='sudo yum remove'
+            alias up='sudo dnf update'
+            alias install='sudo dnf install'
+            alias remove='sudo dnf remove'
             ;;
         mithlond*)
             alias pm='sudo pacman'
