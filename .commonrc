@@ -18,4 +18,5 @@ fi
 
 ~/bin/fetch/fetch
 
-
+# Print last login info
+last -a -9 | sed 's/system boot/system-boot/g' | head -n 2 | tail -n 1 | awk 'BEGIN {ORS=" "} {print "Last Login:", $3 ",", $4, $5, "at", $6, "by", $1, "from"} {if ($10) print $10; else print "system boot"} {ORS="\n"} {print ""}'
