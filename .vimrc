@@ -14,6 +14,7 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'klen/python-mode'
 Plugin 'simple-pairs'
 Plugin 'tpope/vim-fugitive'
+Plugin 'tmhedberg/SimpylFold'  " Smarter folding for python
 " Plugin 'chriskempson/base16-vim' " Base 16 color
 
 " Python-Mode customizations
@@ -75,8 +76,8 @@ au FileType python setlocal tabstop=8 expandtab shiftwidth=4 softtabstop=4
 set makeprg=python\ %
 
 "Lets just make these universal
-set tabstop=8
 set expandtab
+set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 filetype indent on
@@ -90,6 +91,11 @@ set wildignore=*.o,*~,*.pyc
 
 "Always show current position
 set ruler
+
+" Line number settings
+" Setting both makes the cursor line show the absolute number"
+set number
+set relativenumber
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent

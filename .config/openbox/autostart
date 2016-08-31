@@ -32,6 +32,7 @@ pidgin &
 sonata &
 #synergys -d WARNING &
 #boinc_client &
+xflux -z 66214 -k 3400
 
 # Wacom Bamboo tablet setup section
 #~/bin/wacom_setup
