@@ -14,6 +14,7 @@ Plugin 'davidhalter/jedi-vim'
 Plugin 'klen/python-mode'
 Plugin 'simple-pairs'
 Plugin 'tpope/vim-fugitive'
+Plugin 'saltstack/salt-vim'
 Plugin 'tmhedberg/SimpylFold'  " Smarter folding for python
 " Plugin 'chriskempson/base16-vim' " Base 16 color
 
