@@ -73,7 +73,7 @@ esac
 
 # Try to grab antigen if it's not already there
 if [[ ! -f ~/.antigen.zsh ]]; then
-    if curl -L https://raw.githubusercontent.com/zsh-users/antigen/master/antigen.zsh > ~/.antigen.zsh; then
+    if curl -L https://cdn.rawgit.com/zsh-users/antigen/master/bin/antigen.zsh > ~/.antigen.zsh; then
         echo "Successfully downloaded antigen"
     else
         echo "Unable to download antigen"
