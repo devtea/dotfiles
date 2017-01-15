@@ -7,12 +7,12 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " Vundle plugins we want
 Plugin 'davidhalter/jedi-vim'
 Plugin 'klen/python-mode'
-Plugin 'simple-pairs'
+Plugin 'jiangmiao/auto-pairs'
 Plugin 'tpope/vim-fugitive'
 Plugin 'saltstack/salt-vim'
 Plugin 'tmhedberg/SimpylFold'  " Smarter folding for python
