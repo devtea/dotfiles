@@ -19,6 +19,12 @@ HOSTNAME="$(hostname)"
 # OS and Distro detection
 #
 
+
+# Temporary cache disabling to work around freezing on bundling
+# https://github.com/zsh-users/antigen/issues/386
+# https://github.com/zsh-users/antigen/pull/387
+export _ANTIGEN_CACHE_ENABLED=false
+
 UNAME="$(uname)"
 DISTRO=''
 
