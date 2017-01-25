@@ -91,7 +91,7 @@ if [[ -f ~/.antigen.zsh ]]; then
     source ~/.antigen.zsh
 
     # Load various useful lib files
-    antigen bundle robbyrussell/oh-my-zsh lib/
+    antigen use oh-my-zsh
 
     # Antigen Bundles
     antigen bundle git
