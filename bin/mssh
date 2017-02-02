@@ -1,0 +1,11 @@
+#!/bin/bash
+# first host new tmux window
+tmux new-window "ssh $1"
+
+# Loop through the remainder and make new panes
+for host in "${@:2}" ; do
+    tmux split-window -h "ssh $host"
+done
+tmux select-layout tiled > /dev/null
+tmux select-pane -t 0
+tmux set-window-option synchronize-panes on > /dev/null
