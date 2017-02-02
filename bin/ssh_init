@@ -1,0 +1,29 @@
+#!/bin/bash
+# Very simple script to wrap ssh and push some essential dotfiles / pubkey to remote hosts on first connect.
+CONNECT=$1
+
+# If our argument comes in as user@host we need to split out the hostname. 
+# else it's coming in as just host so take that is it is.
+if [[ $CONNECT == *@* ]]; then
+  # Note: this assumed the variable (first argument) has no spaces
+  arr=(${CONNECT//@/ })
+  REMOTE_HOST=${arr[1]}
+else
+  REMOTE_HOST=$CONNECT
+fi
+
+if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
+    # Check .ssh/known-hosts. If ! exists, ssh initially to connect and make homedir. If not, skip sttep 2 and just connect
+	echo "Creating remote home directory, please log in:"
+	ssh "$CONNECT" exit
+
+	echo "Adding pubkey to remote server, please log in:"
+    ssh-copy-id -i ~/.ssh/id_rsa.pub $CONNECT
+
+	echo "Copying essential dotfiles"
+	rsync -qa ./.vimrc ./.vim ./.bashrc .commonrc .exports .functions .aliases .Xresources .bash_profile .terminfo "${REMOTE_HOST}":/home/ASCEND/tdreyer-admin/
+	echo ""
+	echo "Environment complete."
+fi
+# Lastly connect
+ssh $@

@@ -22,6 +22,7 @@ case "$HOSTNAME" in
             alias install='sudo pacman -S'
             alias remove='sudo pacman -Rs'
             alias aurlist="sudo pacman -Qqm"
+            alias ssh="~/bin/ssh_init"
             ;;
         lothlorien*)
             alias up='sudo apt-get update && sudo apt-get upgrade'
