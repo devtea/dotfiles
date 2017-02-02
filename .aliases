@@ -16,6 +16,13 @@ case "$HOSTNAME" in
             alias ssoff='/home/tim/Scripts/screensaver'
             alias vbm='vboxmanage'
             ;;
+        numenor*)
+            alias pm='sudo pacman'
+            alias up='sudo pacmatic -Syu'
+            alias install='sudo pacman -S'
+            alias remove='sudo pacman -Rs'
+            alias aurlist="sudo pacman -Qqm"
+            ;;
         lothlorien*)
             alias up='sudo apt-get update && sudo apt-get upgrade'
             alias install='sudo aptitude install'
