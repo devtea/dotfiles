@@ -79,7 +79,7 @@ alias pgrep='pgrep -l'
 alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
-alias less='less -r'
+alias less='less -FXr'
 alias nmon='nmon -g .nmon_disks'
 alias ncmpc='ncmpc --host=$MPD_HOST'
 alias ncmpcpp='ncmpcpp -h $MPD_HOST'
