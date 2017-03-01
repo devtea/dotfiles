@@ -7,6 +7,7 @@ CONNECT=$1
 if [[ $CONNECT == *@* ]]; then
   # Note: this assumed the variable (first argument) has no spaces
   arr=(${CONNECT//@/ })
+  USER=${arr[0]}
   REMOTE_HOST=${arr[1]}
 else
   REMOTE_HOST=$CONNECT
@@ -14,16 +15,33 @@ fi
 
 if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
     # Check .ssh/known-hosts. If ! exists, ssh initially to connect and make homedir. If not, skip sttep 2 and just connect
-	echo "Creating remote home directory, please log in:"
-	ssh "$CONNECT" exit
 
-	echo "Adding pubkey to remote server, please log in:"
-    ssh-copy-id -i ~/.ssh/id_rsa.pub $CONNECT
+    # If we have a defined user and that user is root
+    if [ ! -z $USER ] && [ "$USER" = "root" ]; then 
+        # Just connect, don't try to futz with the environment
+        ssh $@
+        # Remove our host from the known hosts list after connecting
+        sed -i "/${REMOTE_HOST}/d" ~/.ssh/known_hosts
+        exit 0
+    else
+        #echo "Creating remote home directory, please log in:"
+        #ssh "$CONNECT" exit
+        ssh-copy-id -i ~/.ssh/id_rsa.pub $CONNECT
 
-	echo "Copying essential dotfiles"
-	rsync -qa ./.vimrc ./.vim ./.bashrc .commonrc .exports .functions .aliases .Xresources .bash_profile .terminfo "${REMOTE_HOST}":/home/ASCEND/tdreyer-admin/
-	echo ""
-	echo "Environment complete."
+        if [ $? ]; then
+            echo "Copying essential dotfiles"
+            rsync --progress -a ~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo "${CONNECT}":~/
+            if [ $? ]; then
+                echo ""
+                echo "Environment complete."
+            else
+                echo ""
+                echo "WARNING: Unable to rsync environment files."
+            fi
+        else
+            echo "WARNING: Connection error"
+        fi
+    fi
 fi
 # Lastly connect
 ssh $@
