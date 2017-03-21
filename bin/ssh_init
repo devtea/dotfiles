@@ -35,6 +35,9 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
         ssh-copy-id -i ~/.ssh/id_rsa.pub $CONNECT
 
         if [ $? ]; then
+            echo "Ensuring .ssh context"
+            /bin/ssh -t $@ '[[ -e /etc/redhat_release ]] && sudo chcon -R -t ssh_home_t ~/.ssh'
+
             echo "Copying essential dotfiles"
             update_dotfiles
 
