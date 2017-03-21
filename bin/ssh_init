@@ -2,6 +2,12 @@
 # Very simple script to wrap ssh and push some essential dotfiles / pubkey to remote hosts on first connect.
 CONNECT=$1
 
+update_dotfiles() {
+    cd ~
+    rsync --progress -a ~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo --exclude-from=.essentials_exclude "${CONNECT}":~/
+    cd -
+}
+
 # If our argument comes in as user@host we need to split out the hostname. 
 # else it's coming in as just host so take that is it is.
 if [[ $CONNECT == *@* ]]; then
@@ -30,7 +36,8 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
 
         if [ $? ]; then
             echo "Copying essential dotfiles"
-            rsync --progress -a ~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo "${CONNECT}":~/
+            update_dotfiles
+
             if [ $? ]; then
                 echo ""
                 echo "Environment complete."
@@ -42,6 +49,12 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
             echo "WARNING: Connection error"
         fi
     fi
+#else
+    # just update dotfiles
+    # shit, this means dual auth every time.....
+    # TODO 
+    # update_dotfiles
 fi
+
 # Lastly connect
 ssh $@
