@@ -38,17 +38,9 @@ case "$HOSTNAME" in
             alias vbm='vboxmanage'
             ;;
         numenor*)
-            alias pm='sudo pacman'
-            alias up='sudo pacmatic -Syu'
-            alias install='sudo pacman -S'
-            alias remove='sudo pacman -Rs'
-            alias aurlist="sudo pacman -Qqm"
             alias ssh="~/bin/ssh_init"
             ;;
         lothlorien*)
-            alias up='sudo apt-get update && sudo apt-get upgrade'
-            alias install='sudo aptitude install'
-            alias remove='sudo aptitude remove'
             alias deluge-console="sudo -u deluge deluge-console"
             alias deluged="sudo -u deluge deluged"
             alias msm='sudo -u minecraft msm'
@@ -68,28 +60,11 @@ case "$HOSTNAME" in
             alias fineline2-k='sudo -u fineline2 /home/fineline2/willie/willie.py -k'
             alias fineline2-r='fineline2-q && sleep 2 && echo restarting && fineline2'
             ;;
-        osgiliath*)
-            alias pm='sudo pacman'
-            alias up='sudo pacmatic -Syu'
-            alias install='sudo pacman -S'
-            alias remove='sudo pacman -Rs'
-            alias aurlist="sudo pacman -Qqm"
-            ;;
-        esgaroth*)
-            alias up='sudo dnf update'
-            alias install='sudo dnf install'
-            alias remove='sudo dnf remove'
-            ;;
-        mithlond*)
-            alias pm='sudo pacman'
-            alias up='sudo pacmatic -Syu'
-            alias install='sudo pacman -S'
-            alias remove='sudo pacman -Rs'
-            alias aurlist="sudo pacman -Qqm"
-            ;;
 esac
+
+# Universal aliases
 alias ls='ls -lh --color=auto'
-alias sv='sudo vim'
+alias sv='sudoedit'
 alias sless='sudo less'
 alias entar='tar czvf'
 alias untar='tar -zxvf'
