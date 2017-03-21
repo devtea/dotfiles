@@ -9,6 +9,9 @@ ROOT_UID=0   # Root has $UID 0.
 #enable tab completion for sudo
 complete -cf sudo
 
+# Try to detect what os/distro we're running on
+source ~/.distro_detect
+
 # include common exports
 source ~/.exports
 

@@ -1,15 +1,36 @@
 # Common aliases for shells
+case "$DISTRO" in
+    Arch)
+        alias pm='sudo pacman'
+        alias up='sudo pacmatic -Syu'
+        alias upa='packer -Syu --auronly'
+        alias list-aur='sudo pacman -Qemq'
+        alias install='sudo pacman -S'
+        alias remove='sudo pacman -Rs'
+        alias aurlist="sudo pacman -Qqm"
+        ;;
+    CentOS|RHEL)
+        alias up='sudo yum update'
+        alias install='sudo yum install'
+        alias remove='sudo yum remove'
+        ;;
+    Fedora)
+        alias up='sudo dnf update'
+        alias insatll='sudo dnf install'
+        alias remove='sudo dnf remove'
+        ;;
+    Debian|Ubuntu)
+        alias up='sudo apt-get update && sudo apt-get upgrade'
+        alias install='sudo aptitude install'
+        alias remove='sudo aptitude remove'
+        ;;
+    *)
+        ;;
+esac
 
 case "$HOSTNAME" in
         khazaddum*)
-            alias pm='sudo pacman'
-            alias up='sudo pacmatic -Syu'
-            alias upa='packer -Syu --auronly'
-            alias list-aur='sudo pacman -Qemq'
-            alias install='sudo pacman -S'
-            alias remove='sudo pacman -Rs'
             alias compton="compton -O 2 -D 4 -cCfFb"
-            alias aurlist="sudo pacman -Qqm"
             alias sshfs-rd0="sshfs {celeborn@lothlorien:,}/media/rd0"
             alias sshfs-rd1="sshfs {celeborn@lothlorien:,}/media/rd1"
             alias ytdl-mp3='youtube-dl -x --audio-format mp3 --audio-quality 128K'
