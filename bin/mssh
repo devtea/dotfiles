@@ -6,6 +6,7 @@ tmux new-window "~/bin/ssh_init $1"
 # Loop through the remainder and make new panes
 for host in "${@:2}" ; do
     tmux split-window -h "~/bin/ssh_init $host"
+    tmux select-layout tiled > /dev/null
 done
 tmux select-layout tiled > /dev/null
 tmux select-pane -t 0
