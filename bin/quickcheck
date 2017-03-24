@@ -1,0 +1,46 @@
+#!/bin/bash
+# 
+# A script to run a few quick checks on a host and report back the general status
+
+# Display basics
+hostname -f
+uptime
+echo ""
+
+# Check for (almost) full filesystems
+if [[ $(df -hP | sed 's/%//g' | awk 'NR>1 && $5 > 90' | wc -l) -gt 0 ]]; then
+    echo "Highly utilized filesystems:"
+    df -hP | sed 's/%//g' | awk 'NR>1 && $5 > 90'
+    echo ""
+fi
+
+# Check for read-only filesystems
+if [[ $(sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b|' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }' | wc -l) -gt 0 ]]; then
+    echo "Read Only filesystems:"
+    sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }'
+    echo ""
+fi
+
+# Memory checks
+# TODO need a pattern to match either the old or the new style of free
+#      This one matches the old where buffers/cache is on a separate line.
+if [[ $(free | wc -l) -eq 4 ]]; then 
+    # old style
+    if [[ $(bc <<< "$(free | awk '/buffers\/cache/{ print $3/($3+$4)*100 }')>90") -eq 1 ]]; then
+        echo "High memory usage: $(free | awk '/buffers\/cache/{ print $3/($3+$4)*100 }')%"
+    fi
+    if [[ $(bc <<< "$(free | awk '/Swap/{ print $3/$2*100 }')>15") -eq 1 ]]; then
+        echo "Swap usage at $(free | awk '/Swap/{ print $3/$2*100 }')%"
+    fi
+else
+    # New style compact display
+    if [[ $(bc <<< "$(free | awk '/Mem/{ print $3/$2*100 }')>90") -eq 1 ]]; then
+        echo "High memory usage: $(free | awk '/Mem/{ print $3/$2*100 }')%"
+    fi
+    if [[ $(bc <<< "$(free | awk '/Swap/{ print $3/$2*100 }')>15") -eq 1 ]]; then
+        echo "Swap usage at $(free | awk '/Swap/{ print $3/$2*100 }')%"
+    fi
+fi
+
+echo ""
+echo "Quick checks finished."
