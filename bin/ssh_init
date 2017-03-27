@@ -1,11 +1,17 @@
 #!/bin/bash
 # Very simple script to wrap ssh and push some essential dotfiles / pubkey to remote hosts on first connect.
 CONNECT=$1
+EXIT_CODE=0
+FILE_LIST='~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.distro_detect ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo ~/bin/quickcheck'
 
 update_dotfiles() {
+    EXIT=0
     cd ~
-    rsync --progress -a ~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo --exclude-from=.essentials_exclude "${CONNECT}":~/
+    if ! rsync --progress -a $FILE_LIST --exclude-from=.essentials_exclude "${CONNECT}":~/ ; then 
+        local EXIT=1
+    fi
     cd -
+    return $EXIT
 }
 
 # If our argument comes in as user@host we need to split out the hostname. 
@@ -25,31 +31,26 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
     # If we have a defined user and that user is root
     if [ ! -z $USER ] && [ "$USER" = "root" ]; then 
         # Just connect, don't try to futz with the environment
-        ssh $@
+        ssh $@ || EXIT_CODE=2
         # Remove our host from the known hosts list after connecting
         sed -i "/${REMOTE_HOST}/d" ~/.ssh/known_hosts
-        exit 0
+        exit $EXIT_CODE
     else
         #echo "Creating remote home directory, please log in:"
         #ssh "$CONNECT" exit
-        ssh-copy-id -i ~/.ssh/id_rsa.pub $CONNECT
-
-        if [ $? ]; then
+        if ssh-copy-id -i ~/.ssh/id_rsa.pub $CONNECT; then
             echo "Ensuring .ssh context"
-            /bin/ssh -t $@ '[[ -e /etc/redhat_release ]] && sudo chcon -R -t ssh_home_t ~/.ssh'
+            # we must include an "or exit 0" in our cmd so that the absense of the redhat-release file doesn't 
+            # end our script prematurely
+            /bin/ssh -t -t $@ '[[ -e /etc/redhat-release ]] && sudo chcon -R -t ssh_home_t ~/.ssh || exit 0' || exit 5
 
             echo "Copying essential dotfiles"
-            update_dotfiles
-
-            if [ $? ]; then
-                echo ""
-                echo "Environment complete."
-            else
-                echo ""
-                echo "WARNING: Unable to rsync environment files."
+            if ! update_dotfiles; then
+                echo "WARNING: Unable to rsync files"
             fi
         else
             echo "WARNING: Connection error"
+            exit 3
         fi
     fi
 #else
