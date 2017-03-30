@@ -81,5 +81,9 @@ alias ncmpc='ncmpc --host=$MPD_HOST'
 alias ncmpcpp='ncmpcpp -h $MPD_HOST'
 alias iotop='sudo iotop -d 4'
 alias pms='pms -h $MPD_HOST'
+alias nmap-quick='nmap -T4 -F'
+alias nmap-intense='nmap -T4 -A -v'
+alias nmap-intense-udp='nmap -sS -sU -T4 -A -v'
+alias nmap-ping='nmap -sn'
 
 
