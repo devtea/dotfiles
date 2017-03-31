@@ -2,12 +2,12 @@
 # Very simple script to wrap ssh and push some essential dotfiles / pubkey to remote hosts on first connect.
 CONNECT=$1
 EXIT_CODE=0
-FILE_LIST='~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.distro_detect ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo ~/bin/quickcheck'
 
 update_dotfiles() {
     EXIT=0
     cd ~
-    if ! rsync --progress -a $FILE_LIST --exclude-from=.essentials_exclude "${CONNECT}":~/ ; then 
+    if ! rsync --progress -a ~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.distro_detect ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo ~/bin/quickcheck --exclude-from=.essentials_exclude "${CONNECT}":~/ ; then 
+
         local EXIT=1
     fi
     cd -
