@@ -50,6 +50,7 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
             fi
         else
             echo "WARNING: Connection error"
+            sed -i "/${REMOTE_HOST}/d" ~/.ssh/known_hosts
             exit 3
         fi
     fi
