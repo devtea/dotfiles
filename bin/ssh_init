@@ -38,7 +38,7 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
     # If we have a defined user and that user is root
     if [ ! -z $USER ] && [ "$USER" = "root" ]; then 
         # Just connect, don't try to futz with the environment
-        ssh $@ || EXIT_CODE=2
+        ssh -t $@ "$(< ~/bin/quickcheck); bash --login" || EXIT_CODE=2
         # Remove our host from the known hosts list after connecting
         sed -i "/${REMOTE_HOST}/d" ~/.ssh/known_hosts
         exit $EXIT_CODE
@@ -69,4 +69,4 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
 fi
 
 # Lastly connect
-ssh $@
+ssh -t $@ "$(< ~/bin/quickcheck); bash --login"
