@@ -37,16 +37,16 @@ fi
 echo ""
 
 # apache is a special snowflake
-if pgrep 'apache|httpd|cgi' 2>&1 >/dev/null; then
+if ps -ef | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c' 2>&1 >/dev/null; then
     echo "Apache process stats"
-    ps aux | grep -E 'apache|httpd|cgi' | grep -v grep | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
+    ps aux | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c' | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
 fi
 
 # loop through our other interesting services
-for simple in Tomcat Redis nginx Gluster Zookeeper Salt-Master Kafka Mongo Couchbase Ruby mySQL java lighttpd; do
-    if ps -ef | grep -v grep | grep -i "$simple" 2>&1 >/dev/null; then
+for simple in Tomcat Java Redis nginx php Gluster zabbix-server zabbix-agent Zookeeper Salt-Master Kafka Mongo Couchbase Ruby mySQL lighttpd; do
+    if ps -ef | grep -vE 'grep|bash -c|Contego' | grep -i "$simple" 2>&1 >/dev/null; then
         echo "${simple} process stats"
-        ps aux | grep -iE "$simple" | grep -v grep | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
+        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
     fi
 done
 
