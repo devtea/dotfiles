@@ -6,16 +6,14 @@ EXIT_CODE=0
 update_dotfiles() {
     local EXIT=0
     cd ~
-    if ! rsync --progress -a ~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.distro_detect ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo ~/bin/quickcheck --exclude-from=.essentials_exclude "${CONNECT}":~/ ; then 
+    if ! rsync --progress -a ~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.distro_detect ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo --exclude-from=.essentials_exclude "${CONNECT}":~/ ; then 
         local EXIT=0
         echo "Unable to rsync files. Falling back to throwing tarballs"
         cd ~
-        tar -cz --exclude-from=.essentials_exclude_tar -f /tmp/dotfiles.tgz .vimrc .vim .bashrc .commonrc .distro_detect .exports .functions .aliases .Xresources .bash_profile .terminfo bin/quickcheck || local EXIT 1
+        tar -cz --exclude-from=.essentials_exclude_tar -f /tmp/dotfiles.tgz .vimrc .vim .bashrc .commonrc .distro_detect .exports .functions .aliases .Xresources .bash_profile .terminfo || local EXIT 1
         cd -
         scp /tmp/dotfiles.tgz "${CONNECT}":~/ || local EXIT=1
         rm -f /tmp/dotfiles.tgz
-        /bin/ssh -t $CONNECT 'cd ~; tar -xf ~/dotfiles.tgz; mv bin/quickcheck ~/' || local EXIT=1
-        
     fi
     cd -
     return $EXIT
@@ -43,8 +41,6 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
         sed -i "/${REMOTE_HOST}/d" ~/.ssh/known_hosts
         exit $EXIT_CODE
     else
-        #echo "Creating remote home directory, please log in:"
-        #ssh "$CONNECT" exit
         if ssh-copy-id -i ~/.ssh/id_rsa.pub $CONNECT; then
             echo "Ensuring .ssh context"
             # we must include an "or exit 0" in our cmd so that the absense of the redhat-release file doesn't 
@@ -61,11 +57,6 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
             exit 3
         fi
     fi
-#else
-    # just update dotfiles
-    # shit, this means dual auth every time.....
-    # TODO 
-    # update_dotfiles
 fi
 
 # Lastly connect
