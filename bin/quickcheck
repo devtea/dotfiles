@@ -3,18 +3,85 @@
 # A script to run a few quick checks on a host and report back the general status
 MEM=$(free | awk '/Mem/{ print $2 }')
 
+#
+# OS and Distro detection
+#
+
+UNAME="$(uname)"
+DISTRO=''
+
+case "$UNAME" in 
+    Linux)
+        CURRENT_OS='Linux'
+        if [[ -f /etc/redhat-release ]]; then
+            # CentOS, Fedora, Redhat
+            if grep -q "CentOS" /etc/redhat-release; then
+                DISTRO='CentOS'
+            elif grep -q "Fedora" /etc/redhat-release; then
+                DISTRO='Fedora'
+            else
+                DISTRO='RHEL'
+            fi
+        elif [[ -f /etc/pacman.conf ]]; then 
+            DISTRO="Arch"
+        else
+            LSB=$(which lsb_release 2>/dev/null)
+            if [[ ! "$LSB" = "lsb_release not found" ]]; then
+                # Debian = 'Debian'
+                # Ubuntu = 'Ubuntu'
+                DISTRO="$(lsb_release -si)"
+            fi
+        fi
+        ;;
+    Darwin)
+        CURRENT_OS='OS X';;
+    CYGWIN*)
+        CURRENT_OS='Cygwin'
+        DISTRO='Windows'
+        ;;
+    FreeBSD)
+        CURRENT_OS='FreeBSD';;
+    NetBSD)
+        CURRENT_OS='NetBSD';;
+    OpenBSD)
+        CURRENT_OS='OpenBSD';;
+    SunOS)
+        CURRENT_OS='Solaris';;
+    *)
+        CURRENT_OS="$UNAME";;
+esac
+
+# Color magicks
+# If we are in a terminal
+if test -t 1 ; then
+    # do we support colors?
+    ncolors=$(tput colors)
+    if test -n "$ncolors" && test $ncolors -ge 8; then
+        default="\e[39m"
+        red="\e[31m"
+        green="\e[32m"
+        yellow="\e[33m"
+        blue="\e[34m"
+        magenta="\e[35m"
+        cyan="\e[36m"
+        white="\e[37m"
+    fi
+fi
+
+
 # Display basics
 echo ""
-echo "Running quick checks"
+echo -e "${green}Running quick checks${default}"
+echo -e "This machine is a ${cyan}${DISTRO}${default} install"
 hostname -f
 uptime | sed 's/^ //'
-echo ""
 
 # Check for (almost) full filesystems
+echo -e "${red}"
 df -P | awk '{if (NR!=1 && ($3/$2*100)>90) { print $6, "is", $3/$2*100 "% full" }}'
 
 # Check for read-only filesystems
-if [[ $(sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b|' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }' | wc -l) -gt 0 ]]; then
+if [[ $(sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }' | wc -l) -gt 0 ]]; then
     echo "Read Only filesystems:"
     sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }'
     echo ""
@@ -34,18 +101,18 @@ fi
 #
 # Service checks
 #
-echo ""
+echo -e "${default}"
 
 # apache is a special snowflake
 if ps -ef | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c' 2>&1 >/dev/null; then
-    echo "Apache process stats"
+    echo -e "${yellow}Apache process stats${default}"
     ps aux | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c' | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
 fi
 
 # loop through our other interesting services
 for simple in Tomcat Java Redis nginx php Gluster zabbix-server zabbix-agent Zookeeper Salt-Master Kafka Mongo Couchbase Ruby mySQL lighttpd; do
     if ps -ef | grep -vE 'grep|bash -c|Contego' | grep -i "$simple" 2>&1 >/dev/null; then
-        echo "${simple} process stats"
+        echo -e "${yellow}${simple} process stats${default}"
         ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
     fi
 done
