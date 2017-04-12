@@ -2,6 +2,8 @@
 # 
 # A script to run a few quick checks on a host and report back the general status
 MEM=$(free | awk '/Mem/{ print $2 }')
+CENTOS='  _____         __  ____  ____\n / ___/__ ___  / /_/ __ \\/ __/\n/ /__/ -_) _ \\/ __/ /_/ /\\ \\ \n\\___/\\__/_//_/\\__/\\____/___/'
+UBUNTU='  __  ____             __\n / / / / /  __ _____  / /___ __\n/ /_/ / _ \\/ // / _ \\/ __/ // /\n\\____/_.__/\\_,_/_//_/\\__/\\_,_/'
 
 #
 # OS and Distro detection
@@ -71,8 +73,18 @@ fi
 
 # Display basics
 echo ""
-echo -e "${green}Running quick checks${default}"
-echo -e "This machine is a ${cyan}${DISTRO}${default} install"
+echo -e "${green}Running quick checks${reset}"
+case $DISTRO in 
+    Ubuntu)
+        echo -e "${cyan}${UBUNTU}${reset}"
+        ;;
+    CentOS)
+        echo -e "${cyan}${CENTOS}${reset}"
+        ;;
+    *)
+        echo -e "The local distro is ${cyan}${DISTRO}${reset}"
+        ;;
+esac
 hostname -f
 uptime | sed 's/^ //'
 
