@@ -57,14 +57,14 @@ if test -t 1 ; then
     # do we support colors?
     ncolors=$(tput colors)
     if test -n "$ncolors" && test $ncolors -ge 8; then
-        default="\e[39m"
-        red="\e[31m"
-        green="\e[32m"
-        yellow="\e[33m"
-        blue="\e[34m"
-        magenta="\e[35m"
-        cyan="\e[36m"
-        white="\e[37m"
+        reset="\033[39m"
+        red="\033[31m"
+        green="\033[32m"
+        yellow="\033[33m"
+        blue="\033[34m"
+        magenta="\033[35m"
+        cyan="\033[36m"
+        white="\033[37m"
     fi
 fi
 
@@ -101,22 +101,23 @@ fi
 #
 # Service checks
 #
-echo -e "${default}"
+echo -e "${reset}"
 
 # apache is a special snowflake
-if ps -ef | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c' 2>&1 >/dev/null; then
-    echo -e "${yellow}Apache process stats${default}"
-    ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk '{ sum+=$3; count++;  } END { print sum/count "% CPU average over", count, "processes\n" sum "% CPU Total\n"  }'
-    ps aux | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c' | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
+if ps -ef | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c|java' 2>&1 >/dev/null; then
+    echo -e "${yellow}Apache process stats${reset}"
+    ps aux | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c|Contego|java' | awk -v color="$blue" -v reset="$reset" '{ sum+=$3; count++; } END { print color sum/count "%", reset "CPU average over", count, "processes\n" color sum "%", reset "CPU Total"  }'
+    ps aux | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c|Contego|java' | awk -v color="$blue" -v reset="$reset" -v mem="$MEM" '{ sum+=$6; count++; } END { print color sum/count/1024, reset "MB average over", count, "processes\n" color sum/1024, reset "MB Total\n" color sum/mem*100 "%" reset, "of",  mem/1024/1024, "GB total memory" }'
 fi
 
 # loop through our other interesting services
 for simple in Tomcat Java Redis nginx php Gluster zabbix-server zabbix-agent Zookeeper Salt-Master Kafka Mongo Couchbase Ruby mySQL lighttpd; do
     if ps -ef | grep -vE 'grep|bash -c|Contego' | grep -i "$simple" 2>&1 >/dev/null; then
-        echo -e "${yellow}${simple} process stats${default}"
-        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk '{ sum+=$3; count++;  } END { print sum/count "% CPU average over", count, "processes\n" sum "% CPU Total\n"  }'
-        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
+        echo -e "${yellow}${simple} process stats${reset}"
+        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v color="$blue" -v reset="$reset" '{ sum+=$3; count++; } END { print color sum/count "%", reset "CPU average over", count, "processes\n" color sum "%", reset "CPU Total"  }'
+        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v color="$blue" -v reset="$reset" -v mem="$MEM" '{ sum+=$6; count++; } END { print color sum/count/1024, reset "MB average over", count, "processes\n" color sum/1024, reset "MB Total\n" color sum/mem*100 "%" reset, "of",  mem/1024/1024, "GB total memory" }'
     fi
 done
 
-echo "Quick checks finished."
+echo ""
+echo -e "${green}Quick checks finished.${reset}"
