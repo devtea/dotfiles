@@ -106,6 +106,7 @@ echo -e "${default}"
 # apache is a special snowflake
 if ps -ef | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c' 2>&1 >/dev/null; then
     echo -e "${yellow}Apache process stats${default}"
+    ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk '{ sum+=$3; count++;  } END { print sum/count "% CPU average over", count, "processes\n" sum "% CPU Total\n"  }'
     ps aux | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c' | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
 fi
 
@@ -113,6 +114,7 @@ fi
 for simple in Tomcat Java Redis nginx php Gluster zabbix-server zabbix-agent Zookeeper Salt-Master Kafka Mongo Couchbase Ruby mySQL lighttpd; do
     if ps -ef | grep -vE 'grep|bash -c|Contego' | grep -i "$simple" 2>&1 >/dev/null; then
         echo -e "${yellow}${simple} process stats${default}"
+        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk '{ sum+=$3; count++;  } END { print sum/count "% CPU average over", count, "processes\n" sum "% CPU Total\n"  }'
         ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v mem="$MEM" '{ sum+=$6; count++; } END { print sum/count/1024, "MB average over", count, "processes\n" sum/1024, "MB Total\n" sum/mem*100 "% of " mem/1024/1024, "GB total memory\n" }'
     fi
 done
