@@ -1,6 +1,9 @@
 #! /bin/bash
 # Common commands to be sourced by rc files like .bashrc and .zshrc
 
+# Dircolors
+eval `dircolors ~/.dir_colors`
+
 # Check for keychain and initialize if it exists
 if command -v keychain &> /dev/null; then
     eval $(keychain --eval --ignore-missing --agents ssh -Q --quiet id_rsa_bitbucket id_ecdsa_osgiliath id_ecdsa_khazaddum id_rsa_gandalf id_ecdsa_lothlorien id_rsa_github id_rsa_da-esgaroth id_ed25519_mithlond id_ed25519 id_rsa)
