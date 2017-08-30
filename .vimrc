@@ -2,6 +2,10 @@
 set nocompatible
 filetype off
 
+"show certain non-printing characters/locations
+set list
+set listchars=tab:>·,trail:·,nbsp:·
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
