@@ -1,0 +1,61 @@
+#!/bin/bash
+# A simple local backup script for Sempaphore data.
+#
+# Requirements: Keep 7 days
+#               Backup daily
+#               Back up all semaphore data that isn't in salt
+#
+# This script is intended to be run daily by cron or a systemd timer.
+# It should be run off peak hours because it freezes the filesystems.
+#
+# Overview:
+#   This script creates a local copy of all the semaphore files (Publisher, Workbench, 
+#     SES, etc.). 
+#   First it just tars the files to complete the process as quickly as possible.
+#   Then it compresses the tar and moves it to the backup location.
+#   Lastly it will clean up old backups.
+#
+# CHANGE LOG
+# 2017-08-23 - Tim Dreyer - Initial version
+# 2017-08-24 - Tim Dreyer - Don't freeze filesystems to work around tar hanging sometimes
+# 2017-08-25 - Tim Dreyer - Don't futz with /var/tmp
+# 2017-09-11 - Tim Dreyer - Allow tar to soft-fail as it does with files changing on
+#                           active servers (log files in use)
+# 2017-09-13 - Tim Dreyer - Fine tune file cleanup
+#
+
+# Set sane opts
+set -euo pipefail
+IFS=$'\n\t'
+
+PATH="/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
+
+# Set script vars
+BACKUP_DIR=/srv/local_backups
+DATE="$(date +%F)"
+FILE_NAME="Semaphore_backup_${DATE}"
+BACKUP_FILE="${BACKUP_DIR}/${FILE_NAME}.tar.bz2"
+BACKUP_LIST=()
+
+# Dont' run if not root
+[ $UID -eq 0 ] || exit 1
+
+# Check all potential target backup directories and add them to the BACKUP_LIST Array 
+# iff they exist
+for directory in /opt/semaphore /etc/opt/semaphore /var/opt/semaphore /srv/tomcat/oe_home; do
+  [ -d "${directory}" ] && BACKUP_LIST+=("${directory}")
+done
+
+if [ ! -d "${BACKUP_DIR}" ]; then 
+  mkdir -p "${BACKUP_DIR}"
+fi
+
+# initial quick tar of files
+# if /var turns out to be too small for this, we can always change it to compress here
+# with tar -cjf file.tar.bz2
+tar -cjf "${BACKUP_FILE}" "${BACKUP_LIST[@]}" 2>/dev/null || /usr/bin/true
+
+# Clean up old files, but only if there are enough to justify cleanup
+if [ $(ls -l "${BACKUP_DIR}" | wc -l) -gt 8 ]; then
+    find "${BACKUP_DIR}" -type f -mtime +7 -delete
+fi
