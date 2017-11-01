@@ -40,6 +40,9 @@ if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
         # Remove our host from the known hosts list after connecting
         sed -i "/${REMOTE_HOST}/d" ~/.ssh/known_hosts
         exit $EXIT_CODE
+    # Just connect, don't try to futz with the environment or remove our known_hosts entry
+    elif [[ $REMOTE_HOST == *"medhub"* ]]; then
+        :
     else
         if ssh-copy-id -i ~/.ssh/id_rsa.pub $CONNECT; then
             echo "Ensuring .ssh context"
