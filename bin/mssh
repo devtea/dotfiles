@@ -6,8 +6,10 @@ tmux new-window "~/bin/ssh_init $1"
 # Loop through the remainder and make new panes
 for host in "${@:2}" ; do
     tmux split-window -h "~/bin/ssh_init $host"
+    # Apply a tiled layout after each split to keep from hitting the min size and 
+    # failing early
     tmux select-layout tiled > /dev/null
 done
-tmux select-layout tiled > /dev/null
+#tmux select-layout tiled > /dev/null
 tmux select-pane -t 0
 tmux set-window-option synchronize-panes on > /dev/null
