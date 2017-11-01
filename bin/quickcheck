@@ -1,14 +1,20 @@
 #!/bin/bash
 # 
 # A script to run a few quick checks on a host and report back the general status
+#
+# TODO
+# - Better filtering of RO filesystems (eg from xen systems)
+# - Remove distro print if neofetch exists
+# - filter user from process grep/awks (eg apache user running php)
+
 MEM=$(free | awk '/Mem/{ print $2 }')
 CENTOS='  _____         __  ____  ____\n / ___/__ ___  / /_/ __ \\/ __/\n/ /__/ -_) _ \\/ __/ /_/ /\\ \\ \n\\___/\\__/_//_/\\__/\\____/___/'
+CENTOS7='  _____         __  ____  ________\n / ___/__ ___  / /_/ __ \\/ __/_  /\n/ /__/ -_) _ \\/ __/ /_/ /\\ \\  / /\n\\___/\\__/_//_/\\__/\\____/___/ /_/'
 UBUNTU='  __  ____             __\n / / / / /  __ _____  / /___ __\n/ /_/ / _ \\/ // / _ \\/ __/ // /\n\\____/_.__/\\_,_/_//_/\\__/\\_,_/'
 
 #
 # OS and Distro detection
 #
-
 UNAME="$(uname)"
 DISTRO=''
 
@@ -19,6 +25,9 @@ case "$UNAME" in
             # CentOS, Fedora, Redhat
             if grep -q "CentOS" /etc/redhat-release; then
                 DISTRO='CentOS'
+                if grep -a "release 7" /etc/redhat-release; then
+                    DISTRO='CentOS7'
+                fi
             elif grep -q "Fedora" /etc/redhat-release; then
                 DISTRO='Fedora'
             else
@@ -53,7 +62,10 @@ case "$UNAME" in
         CURRENT_OS="$UNAME";;
 esac
 
+
+#
 # Color magicks
+#
 # If we are in a terminal
 if test -t 1 ; then
     # do we support colors?
@@ -70,8 +82,9 @@ if test -t 1 ; then
     fi
 fi
 
-
+#
 # Display basics
+#
 echo ""
 echo -e "${green}Running quick checks${reset}"
 case $DISTRO in 
@@ -81,6 +94,9 @@ case $DISTRO in
     CentOS)
         echo -e "${cyan}${CENTOS}${reset}"
         ;;
+    CentOS7)
+        echo -e "${yellow}${CENTOS7}${reset}"
+        ;;
     *)
         echo -e "The local distro is ${cyan}${DISTRO}${reset}"
         ;;
@@ -88,18 +104,24 @@ esac
 hostname -f
 uptime | sed 's/^ //'
 
+#
 # Check for (almost) full filesystems
+#
 echo -e "${red}"
 df -P | awk '{if (NR!=1 && ($3/$2*100)>90) { print $6, "is", $3/$2*100 "% full" }}'
 
+#
 # Check for read-only filesystems
+#
 if [[ $(sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }' | wc -l) -gt 0 ]]; then
     echo "Read Only filesystems:"
     sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }'
     echo ""
 fi
 
+#
 # Memory checks
+#
 if [[ $(free | wc -l) -eq 4 ]]; then 
     # old style free
     free | awk '/buffers\/cache/{ mem=$3/($3+$4)*100; if (mem>=90) {print "High memory usage:", mem "%" }}'
@@ -123,13 +145,19 @@ if ps -ef | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c|java' 2>&1 >/de
 fi
 
 # loop through our other interesting services
-for simple in Tomcat Java Redis nginx php Gluster zabbix-server zabbix-agent Zookeeper Salt-Master Kafka Mongo Couchbase Ruby mySQL lighttpd; do
+for simple in Tomcat Java Redis nginx php Gluster zabbix-server zabbix-agent Zookeeper Salt-Master Kafka Mongo Couchbase Ruby mySQL lighttpd haproxy rabbitmq postgres; do
     if ps -ef | grep -vE 'grep|bash -c|Contego' | grep -i "$simple" 2>&1 >/dev/null; then
         echo -e "${yellow}${simple} process stats${reset}"
         ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v color="$blue" -v reset="$reset" '{ sum+=$3; count++; } END { print color sum/count "%", reset "CPU average over", count, "processes\n" color sum "%", reset "CPU Total"  }'
         ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v color="$blue" -v reset="$reset" -v mem="$MEM" '{ sum+=$6; count++; } END { print color sum/count/1024, reset "MB average over", count, "processes\n" color sum/1024, reset "MB Total\n" color sum/mem*100 "%" reset, "of",  mem/1024/1024, "GB total memory" }'
     fi
 done
+
+if [ $(wc -l /etc/salt/grains | awk '{ print $1 }') -gt 0 ]; then
+    echo ""
+    echo -e "${yellow}Salt Grains${reset}"
+    less -FX /etc/salt/grains
+fi
 
 echo ""
 echo -e "${green}Quick checks finished.${reset}"
