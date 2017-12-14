@@ -6,11 +6,11 @@ EXIT_CODE=0
 update_dotfiles() {
     local EXIT=0
     cd ~
-    if ! rsync --progress -a ~/.vimrc ~/.vim ~/.bashrc ~/.commonrc ~/.distro_detect ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo --exclude-from=.essentials_exclude "${CONNECT}":~/ ; then 
+    if ! rsync --progress -a ~/.vimrc ~/.vim ~/.bashrc ~/.dir_colors ~/.commonrc ~/.distro_detect ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo --exclude-from=.essentials_exclude "${CONNECT}":~/ ; then 
         local EXIT=0
         echo "Unable to rsync files. Falling back to throwing tarballs"
         cd ~
-        tar -cz --exclude-from=.essentials_exclude_tar -f /tmp/dotfiles.tgz .vimrc .vim .bashrc .commonrc .distro_detect .exports .functions .aliases .Xresources .bash_profile .terminfo || local EXIT 1
+        tar -cz --exclude-from=.essentials_exclude_tar -f /tmp/dotfiles.tgz .vimrc .vim .bashrc .dir_colors .commonrc .distro_detect .exports .functions .aliases .Xresources .bash_profile .terminfo || local EXIT 1
         cd -
         scp /tmp/dotfiles.tgz "${CONNECT}":~/ || local EXIT=1
         rm -f /tmp/dotfiles.tgz
@@ -22,7 +22,7 @@ update_dotfiles() {
 # If our argument comes in as user@host we need to split out the hostname. 
 # else it's coming in as just host so take that is it is.
 if [[ $CONNECT == *@* ]]; then
-  # Note: this assumed the variable (first argument) has no spaces
+  # Note: this assumes the variable (first argument) has no spaces
   arr=(${CONNECT//@/ })
   USER=${arr[0]}
   REMOTE_HOST=${arr[1]}
@@ -30,8 +30,8 @@ else
   REMOTE_HOST=$CONNECT
 fi
 
+# Check .ssh/known-hosts. If ! exists, ssh initially to connect and make homedir. If not, skip sttep 2 and just connect
 if ! grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
-    # Check .ssh/known-hosts. If ! exists, ssh initially to connect and make homedir. If not, skip sttep 2 and just connect
 
     # If we have a defined user and that user is root
     if [ ! -z $USER ] && [ "$USER" = "root" ]; then 
