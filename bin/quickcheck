@@ -113,7 +113,7 @@ df -P | awk '{if (NR!=1 && ($3/$2*100)>90) { print $6, "is", $3/$2*100 "% full" 
 #
 # Check for read-only filesystems
 #
-if [[ $(sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }' | wc -l) -gt 0 ]]; then
+if [[ $(sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b|iso9660' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }' | wc -l) -gt 0 ]]; then
     echo "Read Only filesystems:"
     sed 's/errors=remount-ro//g' /proc/mounts | grep -E '\bro\b' | grep -vE '/sys/fs/cgroup\b' | awk '{ print $2, "Type:", $3, " (" $1 ")"  }'
     echo ""
