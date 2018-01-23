@@ -15,14 +15,21 @@ if exists(':Plugin')
     Plugin 'VundleVim/Vundle.vim'
 
     " Vundle plugins we want
-    Plugin 'davidhalter/jedi-vim'
-    Plugin 'klen/python-mode'
-    Plugin 'jiangmiao/auto-pairs'
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'saltstack/salt-vim'
+    Plugin 'davidhalter/jedi-vim'  " Python enhancements
+    Plugin 'klen/python-mode'      " python enhancements
+    Plugin 'jiangmiao/auto-pairs'  " quote brace bracket pairing
+    Plugin 'tpope/vim-fugitive'    " git wrapper
+    Plugin 'saltstack/salt-vim'    " Yaml syntax for sls files for salt
     Plugin 'tmhedberg/SimpylFold'  " Smarter folding for python
-    " Plugin 'chriskempson/base16-vim' " Base 16 color
+
+    " Markdown plugins
+    Plugin 'godlygeek/tabular'
+    Plugin 'plasticboy/vim-markdown'
 endif
+
+" vim-markdown customizations
+let g:vim_markdown_folding_style_pythonic = 1
+let g:vim_markdown_folding_disabled = 1
 
 " Python-Mode customizations
 "
