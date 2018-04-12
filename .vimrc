@@ -21,6 +21,7 @@ if exists(':Plugin')
     Plugin 'tpope/vim-fugitive'    " git wrapper
     Plugin 'saltstack/salt-vim'    " Yaml syntax for sls files for salt
     Plugin 'tmhedberg/SimpylFold'  " Smarter folding for python
+    Plugin 'Matt-Deacalion/vim-systemd-syntax'  " Systemd Syntax highlighting
 
     " Markdown plugins
     Plugin 'godlygeek/tabular'
