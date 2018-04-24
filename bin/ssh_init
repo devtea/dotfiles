@@ -9,7 +9,6 @@ EXIT_CODE=0
 FIRST_CONNECT=0
 KNOWN_HOST=1
 LOCAL_USER=1
-DOMAIN=1
 
 update_dotfiles() {
     local EXIT=0
@@ -51,7 +50,6 @@ fi
 
 # check for an domain connected machine
 if [[ LOCAL_USER -ne 0 ]] && ! [[ $REMOTE_HOST == *fisdap* ]] && ! [[ $REMOTE_HOST == *medhub* ]]; then
-    DOMAIN=0
     REMOTE_HOST=${REMOTE_HOST}${FQDN}
     CONNECT=${CONNECT}${FQDN}
     # if we can successfully auth with our key, this is not our first connect
