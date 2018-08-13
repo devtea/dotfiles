@@ -145,11 +145,11 @@ if ps -ef | grep -iE 'apache|httpd|cgi' | grep -vE 'grep|bash -c|java' 2>&1 >/de
 fi
 
 # loop through our other interesting services
-for simple in Tomcat Java Redis nginx php Gluster zabbix-server zabbix-agent Zookeeper Salt-Master Kafka Mongo Couchbase Ruby mySQL lighttpd haproxy rabbitmq postgres memcached; do
+for simple in Tomcat Java Redis nginx php Gluster zabbix-server zabbix-agent Zookeeper Salt-Master Kafka Mongo Couchbase Ruby mySQL lighttpd haproxy rabbitmq postgres memcached docker; do
     if ps -ef | grep -vE 'grep|bash -c|Contego' | grep -i "$simple" 2>&1 >/dev/null; then
         echo -e "${yellow}${simple} process stats${reset}"
-        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v color="$blue" -v reset="$reset" '{ sum+=$3; count++; } END { print color sum/count "%", reset "CPU average over", count, "processes\n" color sum "%", reset "CPU Total"  }'
-        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego' | awk -v color="$blue" -v reset="$reset" -v mem="$MEM" '{ sum+=$6; count++; } END { print color sum/count/1024, reset "MB average over", count, "processes\n" color sum/1024, reset "MB Total\n" color sum/mem*100 "%" reset, "of",  mem/1024/1024, "GB total memory" }'
+        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego|newrelic-infra' | awk -v color="$blue" -v reset="$reset" '{ sum+=$3; count++; } END { print color sum/count "%", reset "CPU average over", count, "processes\n" color sum "%", reset "CPU Total"  }'
+        ps aux | grep -iE "$simple" | grep -vE 'grep|bash -c|Contego|newrelic-infra' | awk -v color="$blue" -v reset="$reset" -v mem="$MEM" '{ sum+=$6; count++; } END { print color sum/count/1024, reset "MB average over", count, "processes\n" color sum/1024, reset "MB Total\n" color sum/mem*100 "%" reset, "of",  mem/1024/1024, "GB total memory" }'
     fi
 done
 
