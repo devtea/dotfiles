@@ -4,5 +4,8 @@ jtvlc*
 .vim/.netrwhist
 *.swp
 *.tmp
+.cache
+.glide
 salt
 new-git
+.kube/*cache
