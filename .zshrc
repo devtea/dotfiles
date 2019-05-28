@@ -18,11 +18,6 @@ HOSTNAME="$(hostname)"
 # Try to detect what os/distro we're running on
 source ~/.distro_detect
 
-# Temporary cache disabling to work around freezing on bundling
-# https://github.com/zsh-users/antigen/issues/386
-# https://github.com/zsh-users/antigen/pull/387
-export _ANTIGEN_CACHE_ENABLED=false
-
 #################################################################
 #
 # Antigen and other ZSH specific plugins
@@ -102,6 +97,8 @@ if [[ -f ~/.antigen.zsh ]]; then
     # ZSH stuff from a private git
     # antigen bundle [email protected]:jdavis/secret.git
     #
+
+    antigen apply
 fi
 
 # include common exports
