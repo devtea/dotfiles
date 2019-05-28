@@ -14,14 +14,15 @@ git pull
 # expect files: base: stg: qa: dev
 awk '/^base|^stg|^qa|^dev/{x=$0;}{print > x;}' top.sls
 
-#vimdiff -u /home/dreyer/.vimrc dev: qa: stg: base: -c 'colo gruvbox' -c 'TOhtml' -c 'w! diff.html' -c 'qa!' 
+#vimdiff -u /home/dreyer/.vimrc dev: qa: stg: base: -c 'colo gruvbox' -c 'TOhtml' -c 'w! top_diff.html' -c 'qa!' 
 vimdiff -u /home/dreyer/.vimrc dev: qa: stg: base: <<EOB
 
 :colo gruvbox
 :TOhtml
-:w! diff.html
+:w! top_diff.html
 :qa!
 EOB
+### End of vim commands ##################################################################
 
-mail -s "$(date) Topfile env summary" -M text/html -a ./diff.html --from-address dreyer@numenor.local tim.dreyer@ascendlearning.com < ./diff.html
-rm -f base: stg: qa: dev:
+mail -s "$(date +%F) Topfile env summary" -M text/html -a ./top_diff.html --from-address dreyer@numenor.local tim.dreyer@ascendlearning.com < ./top_diff.html
+rm -f base: stg: qa: dev: top_diff.html
