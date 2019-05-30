@@ -47,6 +47,7 @@ if [[ -f ~/.antigen.zsh ]]; then
     antigen bundle sudo
     antigen bundle tmuxinator
     antigen bundle zsh-users/zsh-syntax-highlighting
+    antigen bundle kubectl
 
     # Python plugins
     antigen bundle pip
