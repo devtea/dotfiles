@@ -2,6 +2,9 @@
 # OS and Distro detection
 #
 
+# WSL Detection
+[[ -d /mnt/c/Program\ Files  ]] && WSL=0 || WSL=1
+
 UNAME="$(uname)"
 DISTRO=''
 
@@ -48,3 +51,4 @@ esac
 
 export CURRENT_OS
 export DISTRO
+export WSL
