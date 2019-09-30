@@ -1,5 +1,6 @@
 #!/bin/bash
-#script to get memory usage for tmux status line
+# script to get memory usage for tmux status line 
+# Not really backwards compatable with older versions of free
 var_total=$(free -m | awk '/Mem/{print $(NF-5)}')
-var_used=$(free -m | awk '/buffers\/cache/{print $(NF-1)}')
+var_used=$(free -m | awk '/Mem/{print $(NF-4)}')
 echo "$var_used/$var_total"
