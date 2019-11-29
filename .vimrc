@@ -80,6 +80,7 @@ let base16colorspace=256
 syntax enable
 set background=dark
 set scrolloff=10
+set colorcolumn=80
 colorscheme gruvbox
 
 "settings for python
