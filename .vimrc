@@ -80,6 +80,7 @@ let base16colorspace=256
 syntax enable
 set background=dark
 set scrolloff=10
+set colorcolumn=80
 colorscheme gruvbox
 
 "settings for python
@@ -144,6 +145,6 @@ endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 autocmd BufWrite *.coffee :call DeleteTrailingWS()
 
-
-
-
+" Disable solid background color for "normal" text. This must be after any color scheme, 
+" hightlight, or syntax highlighting directives.
+hi Normal guibg=NONE ctermbg=NONE
