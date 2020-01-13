@@ -29,6 +29,9 @@ case "$DISTRO" in
 esac
 
 case "$HOSTNAME" in
+        asc-*)
+            alias ssh='~/bin/ssh_init'
+            ;;
         khazaddum*)
             alias compton="compton -O 2 -D 4 -cCfFb"
             alias sshfs-rd0="sshfs {celeborn@lothlorien:,}/media/rd0"
