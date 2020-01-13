@@ -49,6 +49,10 @@ case "$HOSTNAME" in
             CHOST="$BROWN"
             CPATH="$GREEN"
             ;;
+        asc*)
+            CHOST="$L_PURPLE"
+            CPATH="$GREEN"
+            ;;
         *)
             CHOST="$CYAN"
             CPATH="$GREEN"
