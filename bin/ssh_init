@@ -1,5 +1,5 @@
 #!/bin/bash
-# Not so script to wrap ssh and push some essential dotfiles / pubkey to remote hosts on first connect.
+# Not so short script to wrap ssh and push some essential dotfiles / pubkey to remote hosts on first connect.
 # Config LOCAL_USERNAME with your local account username
 LOCAL_USERNAME=""
 # config FQDN with your search path, e.g. ".company.com"
