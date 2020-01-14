@@ -1,0 +1,34 @@
+#!/bin/bash
+
+echo "Starting script"
+
+while [[ $(wc -l ~/hosts.list | awk '{print $1}') -gt 0 ]]; do
+    HOST="$(head -n 1 ~/hosts.list)"
+    echo "Host=${HOST}"
+    # If our hostname isn't something we've connected to before, 
+    # Run our ssh init script
+    if ! grep -i "$HOST" ~/.ssh/known_hosts &>/dev/null ; then
+        echo ""
+        echo "Running initialization script. Exit the remote host when done."
+        if ! ~/bin/ssh_init $HOST ; then
+            echo "Unable to initialize ssh environment, aborting"
+        fi
+    fi
+
+    # Restarting minion
+    # echo "Restarting minion"
+    # if ! /bin/ssh $HOST -t -t 'sudo service salt-minion restart'; then
+    #     if ! /bin/ssh "root@${HOST}" -t -t 'service salt-minion restart'; then
+    #         echo "unable to run cmd"
+    #     fi
+    # fi
+
+
+
+    # pop the host from the "stack"
+    sed -i "/${HOST}/d" ~/hosts.list
+done
+
+echo ""
+echo "No more hosts to use. Finished."
+

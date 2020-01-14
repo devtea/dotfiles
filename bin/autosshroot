@@ -1,0 +1,27 @@
+#!/bin/bash
+
+echo "Starting script"
+
+while [[ $(wc -l ~/hosts.list | awk '{print $1}') -gt 0 ]]; do
+    HOST="$(head -n 1 ~/hosts.list)"
+    echo "Host=${HOST}"
+        if ! /bin/ssh "root@${HOST}" -t -t 'sed -i "s/latest/2016.11/g" /etc/apt/sources.list.d/saltstack.list /etc/yum.repos.d/saltstack.repo' ; then
+            echo "unable to run cmd"
+        fi
+    # Restarting minion
+    # echo "Restarting minion"
+    # if ! /bin/ssh $HOST -t -t 'sudo service salt-minion restart'; then
+    #     if ! /bin/ssh "root@${HOST}" -t -t 'service salt-minion restart'; then
+    #         echo "unable to run cmd"
+    #     fi
+    # fi
+
+
+
+    # pop the host from the "stack"
+    sed -i "/${HOST}/d" ~/hosts.list
+done
+
+echo ""
+echo "No more hosts to use. Finished."
+
