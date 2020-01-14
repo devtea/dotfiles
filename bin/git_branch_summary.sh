@@ -5,7 +5,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # The path to the target repo
-REPO="/home/dreyer/salt/states"
+REPO=~"/salt/states"
 
 # Destination email address
 EMAIL_TO="tim.dreyer@ascendlearning.com"

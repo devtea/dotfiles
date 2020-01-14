@@ -4,7 +4,6 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-export HOME=~
 export TERM=screen-256color
 export COLORTERM=screen-256color
 
