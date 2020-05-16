@@ -9,7 +9,10 @@ if [ $TILIX_ID  ] || [ $VTE_VERSION  ]; then
 fi
 
 # Check for keychain and initialize if it exists
-command -v keychain &> /dev/null && eval $(keychain --eval --ignore-missing -Q --quiet id_ed25519 id_rsa id_ed25519_roaming)
+if command -v keychain &> /dev/null; then
+    eval $(keychain --eval --ignore-missing -Q --quiet id_ed25519 id_rsa id_ed25519_roaming)
+    clear
+fi
 
 # workaround for terms that don't read xresources right
 [[ $TERM == xterm-256color ]] && ~/bin/base16-default.dark.sh  
