@@ -23,8 +23,14 @@ case "$HOSTNAME" in
             ;;
 esac
 
-export EDITOR=vim
-export VISUAL=vim
+# set nvim as editor if it's installed.
+if which nvim 2&>1 >/dev/null; then
+    export EDITOR=nvim
+    export VISUAL=nvim
+else
+    export EDITOR=vim
+    export VISUAL=vim
+fi
 export PATH="${PATH}:${HOME}/bin"
 
 
