@@ -9,17 +9,13 @@ if [ $TILIX_ID  ] || [ $VTE_VERSION  ]; then
 fi
 
 # Check for keychain and initialize if it exists
-#command -v keychain &> /dev/null && eval $(keychain --eval --ignore-missing --agents ssh -Q --quiet id_ed25519 id_rsa id_ed25519_roaming)
 command -v keychain &> /dev/null && eval $(keychain --eval --ignore-missing -Q --quiet id_ed25519 id_rsa id_ed25519_roaming)
 
 # workaround for terms that don't read xresources right
-if [[ $TERM == xterm-256color ]]; then
-    ~/bin/base16-default.dark.sh  
-fi
+[[ $TERM == xterm-256color ]] && ~/bin/base16-default.dark.sh  
 
-if [ -e ~/bin/fetch/neofetch ]; then 
-    ~/bin/fetch/neofetch
-fi
+# Launch neofetch for the pretties
+[ -e ~/bin/fetch/neofetch ] && ~/bin/fetch/neofetch
 
 # Print last login info
 last -a -9 | sed 's/system boot/system-boot/g' | head -n 2 | tail -n 1 | awk 'BEGIN {ORS=" "} {print "Last Login:", $3 ",", $4, $5, "at", $6, "by", $1, "from"} {if ($10) print $10; else print "system boot"} {ORS="\n"} {print ""}'
