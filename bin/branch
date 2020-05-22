@@ -1,4 +1,7 @@
 #!/bin/bash
+# Helper script to automate the creation of feature branches.
+# To be run in the git directory and provide one argument as the name of your
+# new branch. e.g. abc-my-awesome-feature
 set -euo pipefail
 IFS=$'\n\t'
 
