@@ -1,4 +1,7 @@
 # Shamelessly stolen from https://github.com/jdavis 
+set -euo pipefail
+IFS=$'\n\t'
+
 if [[ -d ~/.git ]]; then
     echo "Oh my. It looks like you already have a Git repository in your home directory. You'll need to fix this before you install the dotfiles."
     exit
@@ -19,7 +22,7 @@ hash git 2> /dev/null || {
     mkdir ~/dotfiles.old
     mv ~/.aliases ~/.bash_profile ~/.bashrc ~/.commonrc ~/.exports ~/.functions ~/.zshrc ~/dotfiles.old
     for file in .aliases .bash_profile .bashrc .commonrc .exports .functions .zshrc; do
-        curl -L https://raw.githubusercontent.com/tdreyer1/dotfiles/master/${file} > ~/${file}
+        curl -L https://raw.githubusercontent.com/devtea/dotfiles/master/${file} > ~/${file}
     done
     exit 1
 }
@@ -30,7 +33,7 @@ git init
 
 echo
 echo "Adding dotfiles remote origin...."
-git remote add origin https://github.com/tdreyer1/dotfiles.git
+git remote add origin https://github.com/devtea/dotfiles.git
 
 echo
 echo "Fetching code..."
@@ -39,7 +42,7 @@ git fetch
 echo
 echo "Moving old dotfiles so we don't have a clash..."
 mkdir dotfiles.old
-git ls-tree -r --name-only origin/master | xargs -I {} mv {} dotfiles.old/ > /dev/null 2>&1
+git ls-tree -r --name-only origin/master | xargs -I {} mv {} dotfiles.old/ > /dev/null 2>&1 || true  # don't fail
 
 echo
 echo "Checking out remote branch..."
