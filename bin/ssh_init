@@ -17,7 +17,7 @@ update_dotfiles() {
         local EXIT=0
         echo "Unable to rsync files. Falling back to throwing tarballs"
         cd ~
-        tar -cz --exclude-from=.essentials_exclude_tar -f /tmp/dotfiles.tgz .vimrc .vim ~/.config .bashrc .dir_colors .commonrc .distro_detect .exports .functions .aliases .Xresources .bash_profile .terminfo || local EXIT 1
+        tar -cz --exclude-from=.essentials_exclude_tar -f /tmp/dotfiles.tgz .vimrc .vim ~/.config .bashrc .dir_colors .commonrc .distro_detect .exports .functions .aliases .Xresources .bash_profile .terminfo || local EXIT=1
         cd -
         scp /tmp/dotfiles.tgz "${CONNECT}":~/ || local EXIT=1
         rm -f /tmp/dotfiles.tgz
