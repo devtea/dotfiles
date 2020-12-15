@@ -12,9 +12,6 @@ complete -cf sudo
 # Try to detect what os/distro we're running on
 source ~/.distro_detect
 
-# include common exports
-source ~/.exports
-
 #colors for ps1
 RESET='\[\033[0m\]'
 
@@ -70,11 +67,6 @@ fi
 PS1="${CHOST}\u@\h:[${CPATH}\w${CHOST}]\n\\$ ${CNEUT}"
 
 
-# Include common aliases for all shells
-source ~/.aliases
-
 # Include common commands for all shells 
 source ~/.commonrc
 
-# Include common functions for all shells
-source ~/.functions

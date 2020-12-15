@@ -102,14 +102,5 @@ if [[ -f ~/.antigen.zsh ]]; then
     antigen apply
 fi
 
-# include common exports
-source ~/.exports
-
-# Include common aliases for all shells
-source ~/.aliases
-
-# Include common functions for all shells
-source ~/.functions
-
 # Include common commands for all shells 
 source ~/.commonrc

@@ -5,7 +5,7 @@ case "$DISTRO" in
         alias up='sudo pacmatic -Syu'
         alias upa='packer -Syu --auronly'
         alias list-aur='sudo pacman -Qemq'
-        alias install='sudo pacman -S'
+        alias install='sudo pacmatic -Syu'
         alias remove='sudo pacman -Rs'
         alias aurlist="sudo pacman -Qqm"
         ;;
@@ -29,6 +29,9 @@ case "$DISTRO" in
 esac
 
 case "$HOSTNAME" in
+        ASC-*)
+            alias ssh='~/bin/ssh_init'
+            ;;
         asc-*)
             alias ssh='~/bin/ssh_init'
             ;;
@@ -86,7 +89,7 @@ alias iotop='sudo iotop -d 4'
 alias pms='pms -h $MPD_HOST'
 alias nmap-quick='nmap -T4 -F'
 alias nmap-intense='nmap -T4 -A -v'
-alias nmap-intense-udp='nmap -sS -sU -T4 -A -v'
+alias nmap-intense-udp='sudo nmap -sS -sU -T4 -A -v'
 alias nmap-ping='nmap -sn'
 alias displeep="sudo sh -c 'vbetool dpms off; read ans; vbetool dpms on'"
 
