@@ -48,10 +48,15 @@ if ssh -T -o PasswordAuthentication=no ${LOCAL_USERNAME}@${REMOTE_HOST} "exit" 2
     LOCAL_USER=0
 fi
 
-# check for an domain connected machine
+# check for a domain connected machine
 if [[ LOCAL_USER -ne 0 ]] && ! [[ $REMOTE_HOST == *fisdap* ]] && ! [[ $REMOTE_HOST == *medhub* ]]; then
-    REMOTE_HOST=${REMOTE_HOST}${FQDN}
-    CONNECT=${CONNECT}${FQDN}
+    # if we were passed an ip, pass it through unmolested
+    # These regexes will catch most ipv4/ipv6-like patterns. they're not 
+    # perfect, but they really don't need to be.
+    if ! [[ $REMOTE_HOST =~ ^([0-9]+\\\.){3}[0-9]+$ ]] && ! [[ $REMOTE_HOST != ^[:0-9]+$ ]]; then
+        REMOTE_HOST=${REMOTE_HOST}${FQDN}
+        CONNECT=${CONNECT}${FQDN}
+    fi
     # if we can successfully auth with our key, this is not our first connect
     if ssh -T -o PasswordAuthentication=no ${REMOTE_HOST} "exit" 2>/dev/null; then
         FIRST_CONNECT=1
