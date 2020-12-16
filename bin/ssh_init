@@ -1,5 +1,7 @@
 #!/bin/bash
-# Not so short script to wrap ssh and push some essential dotfiles / pubkey to remote hosts on first connect.
+# Not so short script to wrap ssh and push some essential dotfiles / pubkey to 
+# remote hosts on first connect.
+
 # Config LOCAL_USERNAME with your local account username
 LOCAL_USERNAME=""
 # config FQDN with your search path, e.g. ".company.com"
@@ -37,8 +39,8 @@ else
   REMOTE_HOST=$CONNECT
 fi
 
-# check .ssh/known-hosts for the host specified. This has to be checked early, but will
-# be used later
+# check .ssh/known-hosts for the host specified. This has to be checked early, 
+# but will be used later
 if grep -i "$REMOTE_HOST" ~/.ssh/known_hosts &>/dev/null ; then
     KNOWN_HOST=0
 fi
@@ -50,7 +52,7 @@ fi
 
 # check for a domain connected machine
 if [[ LOCAL_USER -ne 0 ]] && ! [[ $REMOTE_HOST == *fisdap* ]] && ! [[ $REMOTE_HOST == *medhub* ]]; then
-    # if we were passed an ip, pass it through unmolested
+    # If we were passed an ip, pass it through unmolested
     # These regexes will catch most ipv4/ipv6-like patterns. they're not 
     # perfect, but they really don't need to be.
     if ! [[ $REMOTE_HOST =~ ^([0-9]+\\\.){3}[0-9]+$ ]] && ! [[ $REMOTE_HOST != ^[:0-9]+$ ]]; then
@@ -62,7 +64,8 @@ if [[ LOCAL_USER -ne 0 ]] && ! [[ $REMOTE_HOST == *fisdap* ]] && ! [[ $REMOTE_HO
         FIRST_CONNECT=1
     fi
 else
-    # if our host is not on the domain, check .ssh/known-hosts for the host specified
+    # If our host is not on the domain, check .ssh/known-hosts for the host 
+    # specified
     if [[ KNOWN_HOST -eq 0 ]]; then
         FIRST_CONNECT=1
     fi
@@ -76,7 +79,8 @@ if [[ FIRST_CONNECT -eq 0 ]]; then
         # Remove our host from the known hosts list after connecting
         sed -i "/${REMOTE_HOST}/d" ~/.ssh/known_hosts
         exit $EXIT_CODE
-    # Just connect, don't try to futz with the environment or remove our known_hosts entry
+    # Just connect, don't try to futz with the environment or remove our 
+    # known_hosts entry
     elif [[ $REMOTE_HOST == *"medhub"* ]]; then
         :
     else
@@ -90,8 +94,8 @@ if [[ FIRST_CONNECT -eq 0 ]]; then
         # Legacy connections to domain joined machines
         elif ssh-copy-id -i ~/.ssh/id_rsa.pub $CONNECT; then
             echo "Ensuring .ssh context"
-            # we must include an "or exit 0" in our cmd so that the absense of the 
-            # redhat-release file doesn't end our script prematurely
+            # we must include an "or exit 0" in our cmd so that the absense of 
+            # the redhat-release file doesn't end our script prematurely
             /bin/ssh -t -t $CONNECT '[[ -e /etc/redhat-release ]] && grep "release 6" /etc/redhat-release >/dev/null && sudo chcon -R -t ssh_home_t ~/.ssh || exit 0' || exit 5
 
             echo "Copying essential dotfiles"
