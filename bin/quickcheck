@@ -8,8 +8,9 @@
 # - filter user from process grep/awks (eg apache user running php)
 
 MEM=$(free | awk '/Mem/{ print $2 }')
-CENTOS='  _____         __  ____  ____\n / ___/__ ___  / /_/ __ \\/ __/\n/ /__/ -_) _ \\/ __/ /_/ /\\ \\ \n\\___/\\__/_//_/\\__/\\____/___/'
+CENTOS='  _____         __  ____  ____  ____\n / ___/__ ___  / /_/ __ \/ __/ / __/\n/ /__/ -_) _ \/ __/ /_/ /\ \  / _ \\\n\___/\__/_//_/\__/\____/___/  \___/'
 CENTOS7='  _____         __  ____  ________\n / ___/__ ___  / /_/ __ \\/ __/_  /\n/ /__/ -_) _ \\/ __/ /_/ /\\ \\  / /\n\\___/\\__/_//_/\\__/\\____/___/ /_/'
+CENTOS8='  _____         __  ____  ____  ___\n / ___/__ ___  / /_/ __ \/ __/ ( _  )\n/ /__/ -_) _ \/ __/ /_/ /\ \  / _  |\n\___/\__/_//_/\__/\____/___/  \___/'
 UBUNTU='  __  ____             __\n / / / / /  __ _____  / /___ __\n/ /_/ / _ \\/ // / _ \\/ __/ // /\n\\____/_.__/\\_,_/_//_/\\__/\\_,_/'
 
 #
@@ -27,6 +28,8 @@ case "$UNAME" in
                 DISTRO='CentOS'
                 if grep -a "release 7" /etc/redhat-release; then
                     DISTRO='CentOS7'
+                elif grep -a "release 8" /etc/redhat-release; then
+                    DISTRO='CentOS8'
                 fi
             elif grep -q "Fedora" /etc/redhat-release; then
                 DISTRO='Fedora'
@@ -87,6 +90,8 @@ fi
 #
 echo ""
 echo -e "${green}Running quick checks${reset}"
+hostname -f
+uptime | sed 's/^ //'
 case $DISTRO in 
     Ubuntu)
         echo -e "${cyan}${UBUNTU}${reset}"
@@ -97,17 +102,18 @@ case $DISTRO in
     CentOS7)
         echo -e "${yellow}${CENTOS7}${reset}"
         ;;
+    CentOS8)
+        echo -e "${yellow}${CENTOS8}${reset}"
+        ;;
     *)
         echo -e "The local distro is ${cyan}${DISTRO}${reset}"
         ;;
 esac
-hostname -f
-uptime | sed 's/^ //'
 
 #
 # Check for (almost) full filesystems
 #
-echo -e "${red}"
+echo -ne "${red}"
 df -P | awk '{if (NR!=1 && ($3/$2*100)>90) { print $6, "is", $3/$2*100 "% full" }}'
 
 #
@@ -125,11 +131,15 @@ fi
 if [[ $(free | wc -l) -eq 4 ]]; then 
     # old style free
     free | awk '/buffers\/cache/{ mem=$3/($3+$4)*100; if (mem>=90) {print "High memory usage:", mem "%" }}'
-    free | awk '/Swap/{ swap=$3/$2*100; if (swap>=15) {print "High Swap usage:", swap "%" }}' 
+    free | awk '/Swap/{ swap=$3/$2*100; if (swap>=5) {print "High Swap usage:", swap "%" }}' 
+    echo -e "${red}Top swapping processes:${reset}"
+    for file in /proc/*/status; do awk '/^Pid|VmSwap|Name/{printf $2 " " $3}END{print ""}' $file | grep 'kB'; done | sort -k 3 -nr | head -n 5
 else
     # new compact style free
     free | awk '/Mem/{ mem=$3/$2*100; if (mem>=90) {print "High memory usage:", mem "%" }}' 
-    free | awk '/Swap/{ swap=$3/$2*100; if (swap>=15) {print "High Swap usage:", swap "%" }}' 
+    free | awk '/Swap/{ swap=$3/$2*100; if (swap>=5) {print "High Swap usage:", swap "%" }}' 
+    echo -e "${red}Top swapping processes:${reset}"
+    for file in /proc/*/status; do awk '/^Pid|VmSwap|Name/{printf $2 " " $3}END{print ""}' $file | grep 'kB'; done | sort -k 3 -nr | head -n 5
 fi
 
 #
