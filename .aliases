@@ -94,5 +94,5 @@ alias nmap-ping='nmap -sn'
 alias displeep="sudo sh -c 'vbetool dpms off; read ans; vbetool dpms on'"
 
 # set vim ==> nvim if nvim is installed.
-which nvim 2&>1 >/dev/null && alias vim='nvim'
+which nvim 2>&1 >/dev/null && alias vim='nvim'
 

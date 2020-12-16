@@ -24,7 +24,7 @@ case "$HOSTNAME" in
 esac
 
 # set nvim as editor if it's installed.
-if which nvim 2&>1 >/dev/null; then
+if which nvim 2>&1 >/dev/null; then
     export EDITOR=nvim
     export VISUAL=nvim
 else
