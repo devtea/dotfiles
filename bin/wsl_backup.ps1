@@ -25,7 +25,8 @@ if ($msgBoxInput -eq 'No') {
 New-Item -ItemType Directory -force -path "$backupDir"
 
 # Export the WSL distro to a temporary file, then 7zip to our selected backup location.
-$tempfile = New-TemporaryFile
+$tempfile = New-TemporaryFile | Rename-Item -NewName { $_ -replace 'tmp$', 'tar' } -PassThru
+
 wsl --export $distro "$tempfile"
 7zip a -t7z "$backupDir\Arch_$(get-date -f yyyy-MM-dd).tar.7z" "$tempfile"
 remove-item "$tempfile"
