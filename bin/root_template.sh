@@ -5,4 +5,5 @@ echo "Checkin' for root"
 if [[ $EUID -ne 0 ]]; then
     echo "Relaunching as root"
     sudo "$0" "$@"
+    exit
 fi
