@@ -19,10 +19,10 @@ case "$DISTRO" in
         alias insatll='sudo dnf install'
         alias remove='sudo dnf remove'
         ;;
-    Debian|Ubuntu)
-        alias up='sudo apt-get update && sudo apt-get upgrade'
-        alias install='sudo aptitude install'
-        alias remove='sudo aptitude remove'
+    Debian|Ubuntu|Raspbian)
+        alias up='sudo apt update && sudo apt full-upgrade'
+        alias install='sudo apt update && sudo apt install'
+        alias remove='sudo apt remove'
         ;;
     *)
         ;;
