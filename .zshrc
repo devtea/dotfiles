@@ -104,3 +104,9 @@ fi
 
 # Include common commands for all shells 
 source ~/.commonrc
+
+# zsh specific export
+if [[ -e ~/.binenv ]]; then 
+    export PATH=~/.binenv:$PATH
+    source <(binenv completion zsh)
+fi

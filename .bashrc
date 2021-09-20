@@ -70,3 +70,8 @@ PS1="${CHOST}\u@\h:[${CPATH}\w${CHOST}]\n\\$ ${CNEUT}"
 # Include common commands for all shells 
 source ~/.commonrc
 
+# bash specific export
+if [[ -e ~/.binenv ]]; then 
+    export PATH=~/.binenv:$PATH
+    source <(binenv completion bash)
+fi

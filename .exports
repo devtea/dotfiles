@@ -1,4 +1,10 @@
 # Common exports for shell rc files
+#
+export PATH="${PATH}:${HOME}/bin"
+
+if [[ -e ${HOME}/.local/bin ]]; then 
+    PATH="${PATH}:${HOME}/.local/bin"
+fi
 
 [ -n "$TMUX" ] && export TERM=screen-256color && export COLORTERM=screen-256color
 [ -n "$TERMINATOR_UUID" ] && export TERM=xterm-256color && export COLORTERM=xterm-256color
@@ -31,6 +37,5 @@ else
     export EDITOR=vim
     export VISUAL=vim
 fi
-export PATH="${PATH}:${HOME}/bin"
 
 
