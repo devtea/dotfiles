@@ -18,10 +18,7 @@ fi
 
 case "$HOSTNAME" in
         khazaddum*)
-            export BROWSER="/usr/bin/chromium"
-            export MPD_HOST=192.168.1.25
-            export MPD_PORT=6600
-            export PATH="${PATH}:${HOME}/tmp/heimdal/devkit/sdk/tools/:${HOME}/tmp/heimdal/devkit/sdk/platform-tools/"
+            PATH="${PATH}:${HOME}/tmp/heimdal/devkit/sdk/tools/:${HOME}/tmp/heimdal/devkit/sdk/platform-tools/"
             ;;
         lothlorien*)
             ;;
