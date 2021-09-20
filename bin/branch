@@ -5,8 +5,11 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# update
 git fetch -p
 git checkout master
 git pull
+# create new branch
 git checkout -b "$1"
+# push to server
 git push -u origin "$1"
