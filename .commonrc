@@ -36,3 +36,14 @@ source ~/.functions
 
 # Load local wsl customizations if we're in a WSL environment
 [[ -e ~/.wsl ]] && [[ $WSL -eq 0  ]] && source ~/.wsl
+
+# Kubernetes kubectl config munging
+# If you have multiple kubeconfig files, dump them in a folder named 
+# ~/.kube/config.d
+if [[ -e ~/.kube/config.d ]]; then
+    export KUBECONFIG="$(find ~/.kube/config.d -maxdepth 1 -type f ! -iname '*readme*' | tr '\n' ":" | sed 's/:$//')"
+else
+    # not necessary but here for explictness
+    export KUBECONFIG="$HOME/.kube/config"
+fi
+
