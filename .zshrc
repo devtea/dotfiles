@@ -25,8 +25,8 @@ source ~/.distro_detect
 #################################################################
 
 # Try to grab antigen if it's not already there
-if [[ ! -f ~/.antigen.zsh ]]; then
-    if curl -L https://cdn.rawgit.com/zsh-users/antigen/master/bin/antigen.zsh > ~/.antigen.zsh; then
+if [[ ! -f ~/antigen.zsh ]]; then
+    if curl -L https://cdn.rawgit.com/zsh-users/antigen/master/bin/antigen.zsh > ~/antigen.zsh; then
         echo "Successfully downloaded antigen"
     else
         echo "Unable to download antigen"
@@ -34,15 +34,17 @@ if [[ ! -f ~/.antigen.zsh ]]; then
 fi
 
 # Load antigen
-if [[ -f ~/.antigen.zsh ]]; then
-    source ~/.antigen.zsh
+if [[ -f ~/antigen.zsh ]]; then
+    source ~/antigen.zsh
 
     # Load various useful lib files
     antigen use oh-my-zsh
 
     # Antigen Bundles
     antigen bundle git
+    antigen bundle git-prompt
     antigen bundle rsync
+    antigen bundle command-not-found
     # antigen bundle sprunge
     antigen bundle sudo
     antigen bundle tmuxinator
@@ -64,28 +66,88 @@ if [[ -f ~/.antigen.zsh ]]; then
                     antigen bundle systemd
                     ;;
                 CentOS)
-                    antigen bundle yum;;
-                Debian)
-                    antigen bundle debian;;
-                Fedora)
-                    antigen bundle systemd
                     antigen bundle yum
                     ;;
-                Suse)
-                    antigen bundle suse;;
-                Ubuntu)
-                    antigen bundle ubuntu;;
+                Debian)
+                    antigen bundle debian
+                    ;;
+                Fedora)
+                    antigen bundle systemd
+                    antigen bundle dnf
+                    ;;
             esac
-            ;;
-        Cygwin)
-            # antigen bundle cygwin
             ;;
     esac
 
     # Theme
-    eval homedir="~"
-    antigen theme "${homedir}/.zsh/themes/rik" rik
-
+    antigen theme spaceship-prompt/spaceship-prompt
+    # spaceship-prompt customizations
+    SPACESHIP_PROMPT_ADD_NEWLINE="false"
+    SPACESHIP_PROMPT_SEPARATE_LINE="true"
+    # Time
+    SPACESHIP_TIME_SHOW=true
+    SPACESHIP_TIME_FORMAT=%T
+    SPACESHIP_TIME_PREFIX="~@"
+    # User/host
+    SPACESHIP_USER_SUFFIX=""
+    SPACESHIP_HOST_PREFIX="@"
+    SPACESHIP_HOST_SUFFIX=":"
+    # Dir
+    SPACESHIP_DIR_TRUNC_PREFIX=">=//"
+    SPACESHIP_DIR_PREFIX=""
+    SPACESHIP_CHAR_SYMBOL="$>"
+    SPACESHIP_CHAR_SYMBOL_ROOT="#>"
+    # Virtualenv
+    SPACESHIP_VENV_PREFIX="via "  #default ="via "
+    # k8s
+    SPACESHIP_KUBECTL_SHOW="true"
+    SPACESHIP_KUBECTL_PREFIX=""
+    SPACESHIP_KUBECTL_SUFFIX=""
+    SPACESHIP_KUBECTL_SYMBOL="⎈"
+    # Prompts
+    SPACESHIP_PROMPT_ORDER=(
+        #time          # Time stamps section
+        user          # Username section
+        host          # Hostname section
+        dir           # Current directory section
+        git           # Git section (git_branch + git_status)
+        #hg            # Mercurial section (hg_branch  + hg_status)
+        #package       # Package version
+        #gradle        # Gradle section
+        #maven         # Maven section
+        #node          # Node.js section
+        #ruby          # Ruby section
+        #elixir        # Elixir section
+        #xcode         # Xcode section
+        #swift         # Swift section
+        #golang        # Go section
+        #php           # PHP section
+        #rust          # Rust section
+        #haskell       # Haskell Stack section
+        #julia         # Julia section
+        docker        # Docker section
+        #aws           # Amazon Web Services section
+        #gcloud        # Google Cloud Platform section
+        venv          # virtualenv section
+        #conda         # conda virtualenv section
+        #pyenv         # Pyenv section
+        #dotnet        # .NET section
+        #ember         # Ember.js section
+        #kubectl       # Kubectl context section
+        #terraform     # Terraform workspace section
+        #ibmcloud      # IBM Cloud section
+        exec_time     # Execution time
+        line_sep      # Line break
+        battery       # Battery level and status
+        vi_mode       # Vi-mode indicator
+        jobs          # Background jobs indicator
+        exit_code     # Exit code section
+        char          # Prompt character
+        )
+    SPACESHIP_RPROMPT_ORDER=(
+        kubectl       # Kubectl context section
+        time          # Time stamps section
+        )
     #
     # More antigen examples
     #
