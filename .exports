@@ -18,7 +18,7 @@ fi
 
 case "$HOSTNAME" in
         khazaddum*)
-            PATH="${PATH}:${HOME}/tmp/heimdal/devkit/sdk/tools/:${HOME}/tmp/heimdal/devkit/sdk/platform-tools/"
+            export PATH="${PATH}:${HOME}/tmp/heimdal/devkit/sdk/tools/:${HOME}/tmp/heimdal/devkit/sdk/platform-tools/"
             ;;
         lothlorien*)
             ;;

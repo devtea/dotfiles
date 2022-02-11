@@ -43,3 +43,6 @@ salt
 temp
 tmp
 winhome
+.vault-token
+.vscode*
+.pulumi
