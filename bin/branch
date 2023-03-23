@@ -6,10 +6,13 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # update
-git fetch -p
-git checkout master
-git pull
+git fetch --all -p
 # create new branch
-git checkout -b "$1"
+if git remote | grep upstream >/dev/null; then
+    # create from upstream/master if upstream
+    git checkout -b "$1" upstream/master
+else
+    git checkout -b "$1" master
+fi
 # push to server
 git push -u origin "$1"

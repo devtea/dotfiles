@@ -2,7 +2,8 @@
 HISTFILE=~/.histfile
 HISTSIZE=5000
 SAVEHIST=1000
-setopt appendhistory beep extendedglob nomatch notify
+setopt appendhistory beep extendedglob nomatch notify 
+setopt HIST_IGNORE_SPACE HIST_FIND_NO_DUPS HIST_IGNORE_ALL_DUPS
 unsetopt autocd
 bindkey -e
 # End of lines configured by zsh-newuser-install
@@ -101,6 +102,7 @@ if [[ -f ~/antigen.zsh ]]; then
     SPACESHIP_VENV_PREFIX="via "  #default ="via "
     # k8s
     SPACESHIP_KUBECTL_SHOW="true"
+    SPACESHIP_KUBECTL_VERSION_SHOW="false"
     SPACESHIP_KUBECTL_PREFIX=""
     SPACESHIP_KUBECTL_SUFFIX=""
     SPACESHIP_KUBECTL_SYMBOL="⎈"

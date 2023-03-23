@@ -8,9 +8,13 @@
 # - filter user from process grep/awks (eg apache user running php)
 
 MEM=$(free | awk '/Mem/{ print $2 }')
+# Distro banners from `figlet -f smslant <name>`
 CENTOS='  _____         __  ____  ____  ____\n / ___/__ ___  / /_/ __ \/ __/ / __/\n/ /__/ -_) _ \/ __/ /_/ /\ \  / _ \\\n\___/\__/_//_/\__/\____/___/  \___/'
 CENTOS7='  _____         __  ____  ________\n / ___/__ ___  / /_/ __ \\/ __/_  /\n/ /__/ -_) _ \\/ __/ /_/ /\\ \\  / /\n\\___/\\__/_//_/\\__/\\____/___/ /_/'
 CENTOS8='  _____         __  ____  ____  ___\n / ___/__ ___  / /_/ __ \/ __/ ( _  )\n/ /__/ -_) _ \/ __/ /_/ /\ \  / _  |\n\___/\__/_//_/\__/\____/___/  \___/'
+RHEL7='   ___   __ __ ____ __     ____\n  / _ \ / // // __// /    /_  /\n / , _// _  // _/ / /__    / /\n/_/|_|/_//_//___//____/   /_/'
+RHEL8='   ___   __ __ ____ __     ___\n  / _ \ / // // __// /    ( _ )\n / , _// _  // _/ / /__  / _  |\n/_/|_|/_//_//___//____/  \___/'
+RHEL9='   ___   __ __ ____ __     ___\n  / _ \ / // // __// /    / _ \\\n / , _// _  // _/ / /__   \_, /\n/_/|_|/_//_//___//____/  /___/'
 UBUNTU='  __  ____             __\n / / / / /  __ _____  / /___ __\n/ /_/ / _ \\/ // / _ \\/ __/ // /\n\\____/_.__/\\_,_/_//_/\\__/\\_,_/'
 
 #
@@ -35,6 +39,13 @@ case "$UNAME" in
                 DISTRO='Fedora'
             else
                 DISTRO='RHEL'
+                if grep -a "release 7" /etc/redhat-release; then
+                    DISTRO='RHEL7'
+                elif grep -a "release 8" /etc/redhat-release; then
+                    DISTRO='RHEL8'
+                elif grep -a "release 9" /etc/redhat-release; then
+                    DISTRO='RHEL9'
+                fi
             fi
         elif [[ -f /etc/pacman.conf ]]; then 
             DISTRO="Arch"
@@ -104,6 +115,15 @@ case $DISTRO in
         ;;
     CentOS8)
         echo -e "${yellow}${CENTOS8}${reset}"
+        ;;
+    RHEL7)
+        echo -e "${green}${RHEL7}${reset}"
+        ;;
+    RHEL8)
+        echo -e "${green}${RHEL8}${reset}"
+        ;;
+    RHEL9)
+        echo -e "${green}${RHEL9}${reset}"
         ;;
     *)
         echo -e "The local distro is ${cyan}${DISTRO}${reset}"

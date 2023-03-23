@@ -12,10 +12,15 @@ FIRST_CONNECT=0
 KNOWN_HOST=1
 LOCAL_USER=1
 
+rsync_only() {
+    rsync --progress -az ~/.vimrc ~/.vim ~/.config ~/.bashrc ~/.dir_colors ~/.commonrc ~/.distro_detect ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo --exclude-from=.essentials_exclude "${CONNECT}":~/ 
+    return $?
+}
+
 update_dotfiles() {
     local EXIT=0
     cd ~
-    if ! rsync --progress -a ~/.vimrc ~/.vim ~/.config ~/.bashrc ~/.dir_colors ~/.commonrc ~/.distro_detect ~/.exports ~/.functions ~/.aliases ~/.Xresources ~/.bash_profile ~/.terminfo --exclude-from=.essentials_exclude "${CONNECT}":~/ ; then 
+    if ! rsync_only; then
         local EXIT=0
         echo "Unable to rsync files. Falling back to throwing tarballs"
         cd ~
@@ -108,6 +113,10 @@ if [[ FIRST_CONNECT -eq 0 ]]; then
             exit 3
         fi
     fi
+else
+    # Not our first connect, but try to make sure our dotfiles are updated for
+    # normal machines with rsync
+    rsync_only >/dev/null 2>&1 || true
 fi
 
 # Lastly connect

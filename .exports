@@ -35,4 +35,9 @@ else
     export VISUAL=vim
 fi
 
+#export PULUMI_SKIP_UPDATE_CHECK=true
+# pulumi bin
+if [[ -e ${HOME}/.pulumi/bin ]]; then 
+    PATH="${HOME}/.pulumi/bin:${PATH}"
+fi
 

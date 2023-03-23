@@ -64,7 +64,11 @@ else
     PS1="${CHOST}\u@\h:[${CPATH}\w${CHOST}]\n\\$ ${CNEUT}"
 fi
 
-PS1="${CHOST}\u@\h:[${CPATH}\w${CHOST}]\n\\$ ${CNEUT}"
+if [[ $VIRTUAL_ENV ]]; then
+    PS1="${CHOST}\u@\h:[VENV][${CPATH}\w${CHOST}]\n\\$ ${CNEUT}"
+else
+    PS1="${CHOST}\u@\h:[${CPATH}\w${CHOST}]\n\\$ ${CNEUT}"
+fi
 
 
 # Include common commands for all shells 

@@ -1,5 +1,38 @@
 # Common functions for shell rc files
 
+###########################
+# Tmux session management #
+###########################
+t() {
+    # Accepts one or zero arguments. If an argument is supplied, it's used as th
+    # new session name. When no session name is supplied, the new session name
+    # will be auto-named by tmux, usually an incrementing number (e.g. 0, 1, 2...).
+    empty_session_list() {
+        # List all session names with no attached client, and are in group "main"
+        tmux list-sessions -F '#{session_name}' -f '#{&&:#{?session_attached,0,1},#{==:#{session_group},main}}'
+    }
+
+    if [[ -z $1 ]]; then
+        echo "Session requested with no custom name"
+        if [[ $(empty_session_list | wc -l) -gt 0 ]]; then
+            echo "Existing session found with no client. Reusing..."
+            tmux attach -t "$(empty_session_list | head -n 1)"
+        else
+            echo "No existing session found with no client."
+            tmux new-session -t main
+        fi
+    else
+        echo "New session with custom name"
+        if [[ $(tmux list-sessions -f "#{&&:#{==:#{session_group},main},#{==:#{session_name},$1}}" | wc -l) -gt 0 ]]; then
+            echo "Found existing session with specified name, attaching..."
+            tmux attach -d -t "$1"
+        else
+            echo "Found no existing session with specified name."
+            tmux new-session -t main -s "$1"
+        fi
+    fi
+}
+
 haste() {
     a=$(cat)
     curl -X POST -s -d "$a" http://hastebin.com/documents | awk -F '"' '{print "http://hastebin.com/"$4}'
