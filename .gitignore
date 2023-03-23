@@ -46,3 +46,5 @@ winhome
 .vault-token
 .vscode*
 .pulumi
+.govmomi
+.pip-audit-cache
