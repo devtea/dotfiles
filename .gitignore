@@ -48,3 +48,7 @@ winhome
 .pulumi
 .govmomi
 .pip-audit-cache
+.config/packer/checkpoint*
+**/auth.toml
+_poetry
+.zfunc/_pulumi
