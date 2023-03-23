@@ -1,5 +1,10 @@
 # Common functions for shell rc files
 
+haste() {
+    a=$(cat)
+    curl -X POST -s -d "$a" http://hastebin.com/documents | awk -F '"' '{print "http://hastebin.com/"$4}'
+}
+
 ###########################
 # Tmux session management #
 ###########################
@@ -31,39 +36,6 @@ t() {
             tmux new-session -t main -s "$1"
         fi
     fi
-}
-
-haste() {
-    a=$(cat)
-    curl -X POST -s -d "$a" http://hastebin.com/documents | awk -F '"' '{print "http://hastebin.com/"$4}'
-}
-
-t () {
-        empty_session_list () {
-                tmux list-sessions -F '#{session_name}' -f '#{&&:#{?session_attached,0,1},#{==:#{session_group},main}}'
-        }
-        if [[ -z $1 ]]
-        then
-                echo "Session requested with no custom name"
-                if [[ $(empty_session_list | wc -l) -gt 0 ]]
-                then
-                        echo "Existing session found with no client. Reusing..."
-                        tmux attach -t "$(empty_session_list | head -n 1)"
-                else
-                        echo "No existing session found with no client."
-                        tmux new-session -t main
-                fi
-        else
-                echo "New session with custom name"
-                if [[ $(tmux list-sessions -f "#{&&:#{==:#{session_group},main},#{==:#{session_name},$1}}" | wc -l) -gt 0 ]]
-                then
-                        echo "Found existing session with specified name, attaching..."
-                        tmux attach -d -t "$1"
-                else
-                        echo "Found no existing session with specified name."
-                        tmux new-session -t main -s "$1"
-                fi
-        fi
 }
 
 x() {
