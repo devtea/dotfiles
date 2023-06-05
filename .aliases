@@ -2,10 +2,10 @@
 case "$DISTRO" in
     Arch)
         alias pm='sudo pacman'
-        alias up='sudo pacmatic -Syu'
-        alias upa='packer -Syu --auronly'
+        alias up='sudo pacman -Syu'
+        # alias upa='packer -Syu --auronly'
         alias list-aur='sudo pacman -Qemq'
-        alias install='sudo pacmatic -Syu'
+        alias install='sudo pacman -Syu'
         alias remove='sudo pacman -Rs'
         alias aurlist="sudo pacman -Qqm"
         ;;
@@ -34,6 +34,8 @@ case "$HOSTNAME" in
             ;;
         asc-*)
             alias ssh='~/bin/ssh_init'
+            ;;
+        moria*)
             ;;
         khazaddum*)
             alias compton="compton -O 2 -D 4 -cCfFb"
