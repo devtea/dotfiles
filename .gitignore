@@ -2,6 +2,7 @@
 *.tmp
 *socket*
 .antigen*
+antigen.zsh
 .bash_history
 .binenv*
 .cache
